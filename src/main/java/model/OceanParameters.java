@@ -5,6 +5,8 @@ public class OceanParameters {
     private Flow flow;
     private Integer passiveFishCount;
     private Integer aggressiveFishCount;
+    private FishParameters passiveFishParameters;
+    private FishParameters aggressiveFishParameters;
     private OceanType oceanType;
 
     public OceanParameters(Vector oceanSize, Flow flow, Integer passiveFishCount, Integer aggressiveFishCount, OceanType oceanType) {
@@ -53,5 +55,21 @@ public class OceanParameters {
 
     public void setOceanType(OceanType oceanType) {
         this.oceanType = oceanType;
+    }
+
+    public FishParameters getAggressiveFishParameters() {
+        return aggressiveFishParameters;
+    }
+
+    public void setAggressiveFishParameters(FishParameters aggressiveFishParameters) {
+        this.aggressiveFishParameters = aggressiveFishParameters;
+    }
+
+    public FishParameters getPassiveFishParameters() {
+        return passiveFishParameters;
+    }
+
+    public void setPassiveFishParameters(FishParameters passiveFishParameters) {
+        this.passiveFishParameters = passiveFishParameters;
     }
 }
