@@ -2,18 +2,18 @@ package model;
 
 public class Flow {
     private Vector direction;
-    private Vector strength;
+    private Integer strength;
 
-    public Flow(Vector direction, Vector strength) {
+    public Flow(Vector direction, Integer strength) {
         this.direction = direction;
         this.strength = strength;
     }
 
-    public Vector getStrength() {
+    public Integer getStrength() {
         return strength;
     }
 
-    public void setStrength(Vector strength) {
+    public void setStrength(Integer strength) {
         this.strength = strength;
     }
 

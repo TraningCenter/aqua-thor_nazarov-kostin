@@ -9,6 +9,23 @@ public class OceanParameters {
     private FishParameters aggressiveFishParameters;
     private OceanType oceanType;
 
+    //тупо чтобы тестить
+    public static OceanParameters getTestParams(){
+        OceanParameters oceanParameters = new OceanParameters();
+        oceanParameters.setOceanSize(new Vector(20,10));
+        oceanParameters.setFlow(new Flow(new Vector(1,0), 1));
+        oceanParameters.setPassiveFishCount(15);
+        oceanParameters.setAggressiveFishCount(5);
+        oceanParameters.setPassiveFishParameters(new FishParameters(10,100,10,3));
+        oceanParameters.setAggressiveFishParameters(new FishParameters(140,150,5,3));
+        oceanParameters.setOceanType(OceanType.BORDERLESS);
+        return oceanParameters;
+    }
+
+    public OceanParameters(){
+
+    }
+
     public OceanParameters(Vector oceanSize, Flow flow, Integer passiveFishCount, Integer aggressiveFishCount, OceanType oceanType) {
         this.oceanSize = oceanSize;
         this.flow = flow;

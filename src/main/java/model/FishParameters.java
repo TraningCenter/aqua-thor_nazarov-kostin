@@ -4,13 +4,13 @@ public class FishParameters {
     private Integer reproductionPeriodTicks;
     private Integer lifeTimeTicks;
     private Integer starvationTimeTicks;
-    private Integer smellSenceDistance;
+    private Integer smellSenseDistance;
 
-    public FishParameters(Integer reproductionPeriodTicks, Integer lifeTimeTicks, Integer starvationTimeTicks, Integer smellSenceDistance) {
+    public FishParameters(Integer reproductionPeriodTicks, Integer lifeTimeTicks, Integer starvationTimeTicks, Integer smellSenseDistance) {
         this.reproductionPeriodTicks = reproductionPeriodTicks;
         this.lifeTimeTicks = lifeTimeTicks;
         this.starvationTimeTicks = starvationTimeTicks;
-        this.smellSenceDistance = smellSenceDistance;
+        this.smellSenseDistance = smellSenseDistance;
     }
 
     public Integer getStarvationTimeTicks() {
@@ -37,11 +37,11 @@ public class FishParameters {
         this.reproductionPeriodTicks = reproductionPeriodTicks;
     }
 
-    public Integer getSmellSenceDistance() {
-        return smellSenceDistance;
+    public Integer getSmellSenseDistance() {
+        return smellSenseDistance;
     }
 
-    public void setSmellSenceDistance(Integer smellSenceDistance) {
-        this.smellSenceDistance = smellSenceDistance;
+    public void setSmellSenseDistance(Integer smellSenseDistance) {
+        this.smellSenseDistance = smellSenseDistance;
     }
 }
