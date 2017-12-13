@@ -1,13 +1,14 @@
-package parsers.dom;
+package parsers.jaxb;
 
 import model.OceanParameters;
+import parsers.OceanParamsReader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 
-public class JaxbReader {
+public class JaxbOceanParamsReader implements OceanParamsReader {
 
     public OceanParameters read(InputStream inputStream){
         try {
