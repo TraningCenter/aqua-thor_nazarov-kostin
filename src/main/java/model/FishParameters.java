@@ -6,6 +6,30 @@ public class FishParameters {
     private Integer starvationTimeTicks;
     private Integer smellSenseDistance;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FishParameters that = (FishParameters) o;
+
+        if (!reproductionPeriodTicks.equals(that.reproductionPeriodTicks)) return false;
+        if (!lifeTimeTicks.equals(that.lifeTimeTicks)) return false;
+        if (!starvationTimeTicks.equals(that.starvationTimeTicks)) return false;
+        return smellSenseDistance.equals(that.smellSenseDistance);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = reproductionPeriodTicks.hashCode();
+        result = 31 * result + lifeTimeTicks.hashCode();
+        result = 31 * result + starvationTimeTicks.hashCode();
+        result = 31 * result + smellSenseDistance.hashCode();
+        return result;
+    }
+
+    public FishParameters(){}
+
     public FishParameters(Integer reproductionPeriodTicks, Integer lifeTimeTicks, Integer starvationTimeTicks, Integer smellSenseDistance) {
         this.reproductionPeriodTicks = reproductionPeriodTicks;
         this.lifeTimeTicks = lifeTimeTicks;

@@ -1,8 +1,13 @@
 package model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 public class Vector {
     private Integer x;
     private Integer y;
+
+    public Vector(){}
 
     public Vector(Integer x, Integer y){
         this.x=x;
@@ -23,5 +28,23 @@ public class Vector {
 
     public void setX(Integer x) {
         this.x = x;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vector vector = (Vector) o;
+
+        if (!x.equals(vector.x)) return false;
+        return y.equals(vector.y);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x.hashCode();
+        result = 31 * result + y.hashCode();
+        return result;
     }
 }

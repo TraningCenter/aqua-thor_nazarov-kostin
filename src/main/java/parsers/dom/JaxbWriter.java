@@ -9,14 +9,7 @@ import java.io.OutputStream;
 
 public class JaxbWriter {
 
-    private OutputStream outputStream;
-
-    public JaxbWriter(OutputStream outputStream){
-        this.outputStream = outputStream;
-
-    }
-
-    public void write(OceanParameters oceanParameters) {
+    public void write(OceanParameters oceanParameters, OutputStream outputStream) {
         try {
             JAXBContext jc = JAXBContext.newInstance(OceanParameters.class);
             Marshaller m = jc.createMarshaller();
