@@ -3,6 +3,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import parsers.dom.DomOceanParamsReader;
+import parsers.dom.DomOceanParamsWriter;
 import parsers.jaxb.JaxbOceanParamsReader;
 import parsers.jaxb.JaxbOceanParamsWriter;
 
@@ -18,14 +19,23 @@ public class DomTests {
 
     @Before
     public void init(){
-        initXmlString = TestUtil.getTestXmlString();
+        initXmlString = TestUtil.getTestXmlWithStandaloneNoString();
         initOceanParameters = TestUtil.getTestOceanParameters();
     }
 
-
     @Test
     public void canWrite() throws UnsupportedEncodingException {
+        //Array
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        DomOceanParamsWriter writer = new DomOceanParamsWriter();
 
+        //Act
+        writer.write(initOceanParameters, outputStream);
+
+        //Assert
+        String xmlString = new String(outputStream.toByteArray(), "UTF-8");
+
+        Assert.assertEquals(initXmlString, xmlString);
     }
 
     @Test

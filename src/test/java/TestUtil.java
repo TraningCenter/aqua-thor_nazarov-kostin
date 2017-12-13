@@ -6,6 +6,10 @@ public class TestUtil {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><oceanParameters><oceanType>BORDERLESS</oceanType><oceanSize><x>20</x><y>10</y></oceanSize><flow><direction><x>1</x><y>0</y></direction><strength>1</strength></flow><passiveFishCount>15</passiveFishCount><aggressiveFishCount>5</aggressiveFishCount><passiveFishParameters><lifeTimeTicks>100</lifeTimeTicks><reproductionPeriodTicks>10</reproductionPeriodTicks><smellSenseDistance>3</smellSenseDistance><starvationTimeTicks>10</starvationTimeTicks></passiveFishParameters><aggressiveFishParameters><lifeTimeTicks>150</lifeTimeTicks><reproductionPeriodTicks>140</reproductionPeriodTicks><smellSenseDistance>3</smellSenseDistance><starvationTimeTicks>5</starvationTimeTicks></aggressiveFishParameters></oceanParameters>";
     }
 
+    public static String getTestXmlWithStandaloneNoString() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><oceanParameters><oceanType>BORDERLESS</oceanType><oceanSize><x>20</x><y>10</y></oceanSize><flow><direction><x>1</x><y>0</y></direction><strength>1</strength></flow><passiveFishCount>15</passiveFishCount><aggressiveFishCount>5</aggressiveFishCount><passiveFishParameters><lifeTimeTicks>100</lifeTimeTicks><reproductionPeriodTicks>10</reproductionPeriodTicks><smellSenseDistance>3</smellSenseDistance><starvationTimeTicks>10</starvationTimeTicks></passiveFishParameters><aggressiveFishParameters><lifeTimeTicks>150</lifeTimeTicks><reproductionPeriodTicks>140</reproductionPeriodTicks><smellSenseDistance>3</smellSenseDistance><starvationTimeTicks>5</starvationTimeTicks></aggressiveFishParameters></oceanParameters>";
+    }
+
     public static OceanParameters getTestOceanParameters(){
         OceanParameters initOceanParameters = new OceanParameters();
         initOceanParameters.setOceanSize(new Vector(20, 10));
