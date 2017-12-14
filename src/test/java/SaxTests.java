@@ -1,18 +1,21 @@
-import model.*;
+import model.OceanParameters;
+import model.OceanType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import parsers.dom.DomOceanParamsReader;
-import parsers.dom.DomOceanParamsWriter;
+import org.xml.sax.SAXException;
 import parsers.jaxb.JaxbOceanParamsReader;
 import parsers.jaxb.JaxbOceanParamsWriter;
+import parsers.sax.SaxOceanParamsReader;
+import parsers.sax.SaxOceanParamsWriter;
 
+import javax.xml.transform.TransformerConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
-public class DomTests {
+public class SaxTests {
 
     String initXmlString;
     OceanParameters initOceanParameters;
@@ -20,31 +23,19 @@ public class DomTests {
 
     @Before
     public void init() {
-        initXmlString = TestUtil.getTestXmlWithStandaloneNoString();
+        initXmlString = TestUtil.getTestXmlWithoutStandaloneString();
         initOceanParameters = TestUtil.getTestOceanParameters();
         initBigXmlString = TestUtil.getBigTestXmlString();
     }
 
-    @Test
-    public void canWrite() throws UnsupportedEncodingException {
-        //Array
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        DomOceanParamsWriter writer = new DomOceanParamsWriter();
-
-        //Act
-        writer.write(initOceanParameters, outputStream);
-
-        //Assert
-        String xmlString = new String(outputStream.toByteArray(), "UTF-8");
-
-        Assert.assertEquals(initXmlString, xmlString);
-    }
 
     @Test
     public void canRead() throws UnsupportedEncodingException {
         //Array
+
         ByteArrayInputStream inputStream = new ByteArrayInputStream(initXmlString.getBytes(StandardCharsets.UTF_8.name()));
-        DomOceanParamsReader reader = new DomOceanParamsReader();
+
+        SaxOceanParamsReader reader = new SaxOceanParamsReader();
 
         //Act
         OceanParameters OceanParameters = reader.read(inputStream);
@@ -58,7 +49,7 @@ public class DomTests {
         //Array
         ByteArrayInputStream inputStream = new ByteArrayInputStream(initBigXmlString.getBytes(StandardCharsets.UTF_8.name()));
 
-        DomOceanParamsReader reader = new DomOceanParamsReader();
+        SaxOceanParamsReader reader = new SaxOceanParamsReader();
 
         //Act
         OceanParameters OceanParameters = reader.read(inputStream);
@@ -67,4 +58,19 @@ public class DomTests {
         Assert.assertEquals(initOceanParameters, OceanParameters);
     }
 
+    @Test
+    public void canWrite() throws UnsupportedEncodingException {
+
+        //Array
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        SaxOceanParamsWriter writer = new SaxOceanParamsWriter();
+
+        //Act
+        writer.write(initOceanParameters, outputStream);
+
+        //Assert
+        String xmlString = new String(outputStream.toByteArray(), "UTF-8");
+
+        Assert.assertEquals(initXmlString, xmlString);
+    }
 }
