@@ -1,0 +1,190 @@
+@startuml
+
+interface OceanSimulationController{
+    void start()
+}
+
+OceanSimulationController <|-- DefaultOceanSimulationController
+
+class DefaultOceanSimulationController{
+    void start()
+
+}
+
+interface Runnable{
+    void start()
+}
+
+Runnable <|-- OceanRunner
+interface OceanRunner{
+    void start()
+
+}
+
+OceanRunner <|-- DefaultOceanRunner
+class DefaultOceanRunner{
+    - queue ConcurrentLinkedQueue<OceanDto>
+    - void addOceanSnapshot(OceanDto)
+    - void updateOcean()
+    + void start()
+}
+DefaultOceanRunner --> Ocean
+DefaultOceanRunner -> ConcurrentLinkedQueue
+DefaultOceanRunner -> OceanDtoCreator
+
+interface OceanDtoCreator{
+    OceanDto createDto(Ocean)
+}
+
+Runnable <|-- OceanRenderer
+interface OceanRenderer{
+    void start()
+
+}
+
+OceanRenderer <|-- DefaultOceanRenderer
+class DefaultOceanRenderer{
+    - queue ConcurrentLinkedQueue<OceanDto>
+    - void renderOcean()
+    - OceanDto pollOceanDto()
+    + void start()
+
+}
+DefaultOceanRenderer --> ConcurrentLinkedQueue
+
+
+interface Ocean{
+    +void update()
+    +List<Fish> getFishes()
+}
+
+interface OceanSpace{
+    +List<Cell> getCellsInRange(Vector)
+    +Vector modifyVelocity(Vector velocity)
+    +void addFish(Fish)
+}
+
+OceanSpace <|-- DefaultOcean
+Ocean <|-- DefaultOcean
+class DefaultOcean{
+    - fishes : List<Fish>
+    - grid : CellGrid
+    - cellsBehavior : CellsBehavior
+    - flow : Flow
+
+    +List<Cell> getCellsInRange(Vector)
+    +Vector modifyVelocity(Vector velocity)
+    +void addFish(Fish)
+}
+DefaultOcean --> CellsBehavior
+DefaultOcean --> CellGrid
+DefaultOcean --> Fish
+
+interface CellGrid{
+    + getCell(Vector)
+}
+
+CellGrid <|-- DefaultCellGrid
+class DefaultCellGrid{
+    -cells : Cell[][]
+    + getCell(Vector)
+}
+DefaultCellGrid ---> Cell
+
+class Vector{
+    - x: Integer
+    - y: Integer
+}
+
+interface Cell{
+    + void add(Fish)
+    + void remove(Fish)
+    + List<Fish> getFishes()
+}
+
+Cell <|- DefaultCell
+class DefaultCell{
+    - position: Vector
+    - fishes : Set<Fish>
+    + void add(Fish)
+    + void remove(Fish)
+    + List<Fish> getFishes()
+}
+
+interface CellsBehavior{
+    + getCellsInRadius(CellGrid, Vector, Integer distance)
+    + resolveBorderCells(Ocean)
+}
+
+CellsBehavior<|--BorderlessCellBehavior
+CellsBehavior<|--BorderedCellBehavior
+
+interface Fish{
+    + FishType getType()
+    + Vector getPosition()
+    + void action()
+}
+
+Fish<|--OceanFish
+class OceanFish{
+    - ocean: OceanSpace
+    - state: FishState
+    - fishType: FishType
+    - strategy: MovingAnimalStrategy
+    - reproductionBehavior : ReproductionBehavior
+    + void changeState(FishState)
+    + void action()
+}
+OceanFish-->OceanSpace
+OceanFish->ReproductionBehavior
+OceanFish-->TargetCalculationFishStrategy
+OceanFish-->OceanFishState
+
+interface ReproductionBehavior{
+    + void birth(Ocean, Vector birthVec)
+}
+
+ReproductionBehavior<|--AggressiveReproductionFishBehavior
+ReproductionBehavior<|--PassiveReproductionFishBehavior
+
+interface TargetCalculationFishStrategy{
+    + Vector calculateTarget(Ocean)
+}
+
+TargetCalculationFishStrategy<|--AggressiveTargetCalculationStrategy
+TargetCalculationFishStrategy<|--PassiveTargetCalculationStrategy
+
+interface OceanFishState{
+    + action()
+}
+
+OceanFishState<|--BirthOceanFishState
+class BirthOceanFishState{
+    - fish : OceanFish
+    - ticksToBecomeAdult : Integer
+    + action()
+}
+
+OceanFishState<|--MovingOceanFishState
+class MovingOceanFishState{
+    - fish : OceanFish
+    + action()
+}
+
+OceanFishState<|--EatingOceanFishState
+class EatingOceanFishState{
+    - fish : OceanFish
+    + action()
+}
+
+interface OceanParametersReader{
+    OceanParameters read(InputStream)
+}
+
+interface OceanParametersWriter{
+    write(OceanParameters, OutputStream)
+}
+
+
+
+@enduml
