@@ -7,7 +7,13 @@ interface OceanSimulationController{
 OceanSimulationController <|-- DefaultOceanSimulationController
 
 class DefaultOceanSimulationController{
-    void start()
+    -oceanCreator: OceanCreator
+    -oceanRunner: OceanRunner
+    -oceanRenderer: OceanRenderer
+    DefaultOceanSimulationController(OceanCreator,
+    OceanRunner,OceanRenderer)
+    -void createOcean()
+    +void start()
 
 }
 
@@ -30,13 +36,13 @@ class DefaultOceanRunner{
 }
 DefaultOceanRunner --> Ocean
 DefaultOceanRunner -> ConcurrentLinkedQueue
-DefaultOceanRunner -> OceanDtoCreator
+DefaultOceanRunner --> OceanDtoCreator
 
 interface OceanDtoCreator{
     OceanDto createDto(Ocean)
 }
 
-Runnable <|-- OceanRenderer
+Runnable <|- OceanRenderer
 interface OceanRenderer{
     void start()
 
@@ -181,10 +187,61 @@ interface OceanParametersReader{
     OceanParameters read(InputStream)
 }
 
-interface OceanParametersWriter{
-    write(OceanParameters, OutputStream)
+OceanParametersReader <|- OceanParametersReaderDecorator
+abstract class OceanParametersReaderDecorator{
+    -reader : OceanParametersReader
+    +OceanParametersReaderDecorator(OceanParametersReader reader)
+    +OceanParameters read(InputStream)
 }
 
+OceanParametersReaderDecorator <|- FileChangeBufferDecorator
+class FileChangeBufferDecorator{
+    -lastModifiedTimeStamp : Integer
+    -lastModifiedOceanParameters : OceanParameters
+    -checkFileLastModified()
+    OceanParameters read(InputStream)
+}
+FileChangeBufferDecorator -> OceanParametersReader
 
+OceanParametersReader <|-- DomOceanParametersReader
+OceanParametersReader <|-- SaxOceanParametersReader
+OceanParametersReader <|-- JaxbOceanParametersReader
 
+interface OceanCreator{
+    Ocean createOcean()
+}
+
+OceanCreator<|--XmlFileOceanCreator
+class XmlFileOceanCreator{
+    -paramsReader: OceanParametersReader
+    Ocean createOcean()
+}
+XmlFileOceanCreator -> OceanParametersReader
+
+DefaultOceanSimulationController-->OceanRunner
+DefaultOceanSimulationController-->OceanRenderer
+DefaultOceanControllerConfigurator -> OceanCreator
+
+interface OceanCreatorFactory{
+    OceanCreator createOceanCreator()
+}
+
+OceanCreatorFactory <|-- XmlWithFileChangeBufferOceanCreatorFactory
+
+class XmlWithFileChangeBufferOceanCreatorFactory{
+    OceanFactory createOceanFactory()
+}
+
+class DefaultOceanControllerConfigurator{
+    -oceanCreatorFactory : OceanCreatorFactory
+    OceanControllerConfigurator(OceanCreatorFactory)
+
+}
+
+DefaultOceanControllerConfigurator --> OceanCreatorFactory
+DefaultOceanControllerConfigurator --> OceanSimulationController
+
+DefaultInputController -> DefaultOceanControllerConfigurator
+
+Main --> DefaultInputController
 @enduml
