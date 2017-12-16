@@ -1,17 +1,49 @@
 @startuml
 
+class OceanParameters{
+    -Vector oceanSize
+    -Flow flow
+    -OceanType oceanType
+    -Integer passiveFishCount
+    -Integer aggressiveFishCount
+    -FishParameters passiveFishParameters
+    -FishParameters aggressiveFishParameters
+}
+OceanParameters-->FishParameters
+OceanParameters-->Flow
+OceanParameters-->OceanType
+
+class FishParameters{
+    -Integer speed
+    -Integer reproductionPeriodTicks
+    -Integer lifeTimeTicks
+    -Integer starvationTimeTicks
+    -Integer smellSenseDistance
+}
+
+class Flow{
+    Vector direction
+    Integer strength
+}
+
+enum OceanType{
+    BORDERED,
+    BORDERLESS
+}
+
 interface OceanSimulationController{
     void start()
 }
 
-OceanSimulationController <|-- DefaultOceanSimulationController
+OceanSimulationController <|-- DefaultOceanSimulation
 
-class DefaultOceanSimulationController{
+class DefaultOceanSimulation{
     -oceanCreator: OceanCreator
     -oceanRunner: OceanRunner
     -oceanRenderer: OceanRenderer
-    DefaultOceanSimulationController(OceanCreator,
-    OceanRunner,OceanRenderer)
+    -oceanMetricPrinter: OceanMetricPrinter
+    DefaultOceanSimulation(OceanCreator,
+    OceanRunner,OceanRenderer,OceanMetricPrinter)
     -void createOcean()
     +void start()
 
@@ -42,7 +74,7 @@ interface OceanDtoCreator{
     OceanDto createDto(Ocean)
 }
 
-Runnable <|- OceanRenderer
+Runnable <|-- OceanRenderer
 interface OceanRenderer{
     void start()
 
@@ -216,32 +248,66 @@ class XmlFileOceanCreator{
     -paramsReader: OceanParametersReader
     Ocean createOcean()
 }
-XmlFileOceanCreator -> OceanParametersReader
+XmlFileOceanCreator --> OceanParametersReader
 
-DefaultOceanSimulationController-->OceanRunner
-DefaultOceanSimulationController-->OceanRenderer
-DefaultOceanControllerConfigurator -> OceanCreator
+DefaultOceanSimulation --> OceanRunner
+DefaultOceanSimulation --> OceanRenderer
+DefaultOceanSimulation --> OceanMetricPrinter
 
 interface OceanCreatorFactory{
     OceanCreator createOceanCreator()
 }
 
+interface OceanMetricPrinter{
+
+}
+
+OceanMetricPrinter <|-- DefaultOceanMetricPrinter
+class DefaultOceanMetricPrinter{
+
+}
+
 OceanCreatorFactory <|-- XmlWithFileChangeBufferOceanCreatorFactory
 
 class XmlWithFileChangeBufferOceanCreatorFactory{
-    OceanFactory createOceanFactory()
+    -propertiesReader PropertiesReader
+    XmlWithFileChangeBufferOceanCreatorFactory(PropertiesReader)
+    OceanCreator createOceanCreator()
+}
+XmlWithFileChangeBufferOceanCreatorFactory -> PropertiesReader
+
+interface OceanSimulationConfigurator{
+    +OceanSimulation createOceanSimulation()
 }
 
-class DefaultOceanControllerConfigurator{
+OceanSimulationConfigurator <|-- DefaultOceanSimulationConfigurator
+class DefaultOceanSimulationConfigurator{
     -oceanCreatorFactory : OceanCreatorFactory
-    OceanControllerConfigurator(OceanCreatorFactory)
+    +OceanSimulationConfigurator(OceanCreatorFactory)
+    +OceanSimulation createOceanSimulation()
+    -void createOceanRunner()
+    -void createOceanRenderer()
+    -void createOceanMetricPrinter()
 
 }
 
-DefaultOceanControllerConfigurator --> OceanCreatorFactory
-DefaultOceanControllerConfigurator --> OceanSimulationController
+DefaultOceanSimulationConfigurator --> OceanCreator
 
-DefaultInputController -> DefaultOceanControllerConfigurator
 
-Main --> DefaultInputController
+Main --> DefaultMainController
+Main --> OceanCreatorFactory
+DefaultMainController -> OceanSimulationConfigurator
+
+class DefaultMainController{
+    -simulationConfigurator :OceanSimulationConfigurator
+}
+
+DefaultMainController --> OceanSimulationController
+
+interface PropertiesReader{
+    +Map<String,String> readProperties()
+}
+
+PropertiesReader <|-- DefaultPropertiesReader
+
 @enduml
