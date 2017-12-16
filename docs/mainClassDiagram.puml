@@ -31,11 +31,11 @@ enum OceanType{
     BORDERLESS
 }
 
-interface OceanSimulationController{
+interface OceanSimulation{
     void start()
 }
 
-OceanSimulationController <|-- DefaultOceanSimulation
+OceanSimulation <|-- DefaultOceanSimulation
 
 class DefaultOceanSimulation{
     -oceanCreator: OceanCreator
@@ -294,15 +294,21 @@ class DefaultOceanSimulationConfigurator{
 DefaultOceanSimulationConfigurator --> OceanCreator
 
 
-Main --> DefaultMainController
+Main --> MainController
 Main --> OceanCreatorFactory
 DefaultMainController -> OceanSimulationConfigurator
 
-class DefaultMainController{
-    -simulationConfigurator :OceanSimulationConfigurator
+interface MainController{
+    void start()
 }
 
-DefaultMainController --> OceanSimulationController
+MainController <|-- DefaultMainController
+class DefaultMainController{
+    -simulationConfigurator :OceanSimulationConfigurator
+    +void start()
+}
+
+DefaultMainController --> OceanSimulation
 
 interface PropertiesReader{
     +Map<String,String> readProperties()
@@ -366,11 +372,19 @@ class JaxbOceanParametersReader{
 }
 
 class DefaultOceanMetricPrinter{
-    -metrics : List<Metric>
+    -metricEvaluators : List<MetricEvaluator>
     -metricWriter : OceanMetricWriter
 }
+DefaultOceanMetricPrinter --> MetricEvaluator
 DefaultOceanMetricPrinter --> BlockingQueue
 DefaultOceanMetricPrinter --> OceanMetricWriter
+
+interface MetricEvaluator{
+    Metric calculateMetric(OceanDto)
+}
+
+MetricEvaluator <|-- PassiveFishCountMetricEvaluator
+MetricEvaluator <|-- AggressiveFishCountMetricEvaluator
 
 interface OceanMetricWriter{
     +void write(List<Metric> metrics, OutputStream outputStream)

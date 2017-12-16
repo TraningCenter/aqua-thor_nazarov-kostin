@@ -1,0 +1,33 @@
+@startuml
+Main --> Main : new DefaultPropertiesReader()
+Main --> OceanCreatorFactory : new XmlWithFileChangeBufferOceanCreatorFactor(DefaultPropertiesReader)
+OceanCreatorFactory --> Main : OceanCreatorFactory
+Main --> OceanSimulationConfigurator : new DefaultOceanSimulationConfigurator(OceanCreatorFactory)
+OceanSimulationConfigurator --> Main : OceanSimulationConfigurator
+Main --> MainController : new DefaultMainController(OceanSimulationConfigurator)
+MainController --> Main : MainController
+Main --> MainController : start()
+MainController --> OceanSimulationConfigurator : createOceanSimulation()
+OceanSimulationConfigurator --> OceanCreator : createOcean()
+OceanCreator --> OceanParametersReader : read(inputStream)
+OceanParametersReader --> OceanCreator : OceanParameters
+OceanCreator --> OceanSimulationConfigurator : Ocean
+OceanSimulationConfigurator --> OceanSimulationConfigurator : createOceanRunner()
+OceanSimulationConfigurator --> OceanSimulationConfigurator : createOceanRenderer()
+OceanSimulationConfigurator --> OceanSimulationConfigurator : createOceanMetricPrinter()
+OceanSimulationConfigurator --> MainController : OceanSimulation
+MainController --> OceanSimulation : start()
+OceanSimulation --> OceanRunner : start()
+OceanSimulation --> OceanRenderer : start()
+OceanSimulation --> OceanMetricPrinter : start()
+OceanRunner --> Ocean : update()
+OceanRunner --> OceanDtoCreator : createDto(Ocean)
+OceanDtoCreator --> OceanRunner : OceanDto
+OceanRunner --> BlockingQueue : OceanDto
+BlockingQueue --> OceanRenderer : OceanDto
+OceanRenderer --> OceanRenderer : renderOcean()
+BlockingQueue --> OceanMetricPrinter : OceanDto
+OceanMetricPrinter --> MetricEvaluator : evaluateMetric(OceanDto)
+MetricEvaluator --> OceanMetricPrinter : Metric
+OceanMetricPrinter --> OceanMetricWriter : write(List<Metric>, OutputStream)
+@enduml
