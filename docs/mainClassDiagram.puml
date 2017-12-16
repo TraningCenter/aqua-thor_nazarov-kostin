@@ -61,13 +61,13 @@ interface OceanRunner{
 
 OceanRunner <|-- DefaultOceanRunner
 class DefaultOceanRunner{
-    - queue ConcurrentLinkedQueue<OceanDto>
+    - queue BlockingQueue<OceanDto>
     - void addOceanSnapshot(OceanDto)
     - void updateOcean()
     + void start()
 }
 DefaultOceanRunner --> Ocean
-DefaultOceanRunner -> ConcurrentLinkedQueue
+DefaultOceanRunner -> BlockingQueue
 DefaultOceanRunner --> OceanDtoCreator
 
 interface OceanDtoCreator{
@@ -82,13 +82,13 @@ interface OceanRenderer{
 
 OceanRenderer <|-- DefaultOceanRenderer
 class DefaultOceanRenderer{
-    - queue ConcurrentLinkedQueue<OceanDto>
+    - queue BlockingQueue<OceanDto>
     - void renderOcean()
     - OceanDto pollOceanDto()
     + void start()
 
 }
-DefaultOceanRenderer --> ConcurrentLinkedQueue
+DefaultOceanRenderer --> BlockingQueue
 
 
 interface Ocean{
@@ -310,4 +310,100 @@ interface PropertiesReader{
 
 PropertiesReader <|-- DefaultPropertiesReader
 
+class DomOceanParametersReader{
+    +OceanParameters read(InputStream inputStream)
+    -DocumentBuilder createDocumentBuilder()
+	-void startParse(Document document)
+	-void parsePassiveFishParameters(Element passiveFishParameters)
+	-void parseAggressiveFishParameters(Element aggressiveFishParameters)
+	-void parseAggressiveFishCount(Element aggressiveFishCountElement)
+	-void parsePassiveFishCount(Element passiveFishCountElement)
+	-void parseOceanFlow(Element flowElement)
+	-void parseOceanSize(Element oceanSizeElement)
+	-void parseOceanType(Node oceanTypeNode)
+	-FishParameters parseFishParameters(Element fishParametersElement)
+	-Vector parseVector(Element vectorElement)
+	-Integer parseIntegerAtTag(Element element, String tagName)
+	-Integer parseInteger(Node integerNode)
+	-Element getFirstElementByTagName(Element elementToSearch, String tagName)
+}
+
+class SaxOceanParametersReader{
+	-OceanParameters oceanParameters;
+    -Flow flow;
+    -Vector sizeVector;
+    -Vector directionVector;
+    -OceanType oceanType;
+    -FishParameters agrFishParams;
+    -FishParameters pasFishParams;
+    -String charactersIdentifier;
+    -String coordsIdentifier;
+    -String fishStrategyIdentifier;
+    -StringBuffer oceanTypeBuffer;
+    -StringBuffer sizeXBuffer;
+    -StringBuffer sizeYBuffer;
+    -StringBuffer directionXBuffer;
+    -StringBuffer directionYBuffer;
+    -StringBuffer strengthBuffer;
+    -StringBuffer agrCountBuffer;
+    -StringBuffer pasCountBuffer;
+    -StringBuffer pasLifeTimeBuffer;
+    -StringBuffer pasReproductionPeriodBuffer;
+    -StringBuffer pasSmellSenseDistanceBuffer;
+    -StringBuffer pasStarvationTimeBuffer;
+    -StringBuffer agrLifeTimeBuffer;
+    -StringBuffer agrReproductionPeriodBuffer;
+    -StringBuffer agrSmellSenseDistanceBuffer;
+    -StringBuffer agrStarvationTimeBuffer;
+    +OceanParameters read(InputStream inputStream)
+    +void startElement(String namespaceURI, String localName, String qualifiedName, Attributes attrs)
+    +void characters(char[] ch, int start, int length)
+	+void endElement(String nameURI, String localName, String qualifiedName)
+}
+
+class JaxbOceanParametersReader{
+    +OceanParameters read(InputStream inputStream)
+}
+
+class DefaultOceanMetricPrinter{
+    -metrics : List<Metric>
+    -metricWriter : OceanMetricWriter
+}
+DefaultOceanMetricPrinter --> BlockingQueue
+DefaultOceanMetricPrinter --> OceanMetricWriter
+
+interface OceanMetricWriter{
+    +void write(List<Metric> metrics, OutputStream outputStream)
+}
+
+interface BlockingQueue{
+
+}
+
+OceanMetricWriter <|-- DomOceanMetricWriter
+class DomOceanMetricWriter{
+    +void write(List<Metric> metrics, OutputStream outputStream)
+    -DOMSource makeDom(List<Metric> metrics)
+    -Transformer createTransformer()
+    -DocumentBuilder createDocumentBuilder()
+    -Element createIntegerElementWithTextValue(Document document, String tagName, Integer value)
+    -Element createMetricElement(Document document, Metric metric)
+    -Element createMetricListElement(Document document, List<Element> metricElements)
+}
+
+OceanMetricWriter <|-- SaxOceanMetricWriter
+class SaxOceanMetricWriter{
+	-TransformerFactory factory;
+    -SAXTransformerFactory saxTransFactory;
+    -TransformerHandler transHandler;
+    -List<Metric> metrics;
+    +void write(List<Metric> metrics, OutputStream outputStream)
+    -void writeRoot()
+    -void writeMetrics()
+}
+
+OceanMetricWriter <|-- JaxbOceanMetricWriter
+class JaxbOceanMetricWriter{
+    +void write(List<Metric> metrics, OutputStream outputStream)
+}
 @enduml
