@@ -1,6 +1,6 @@
 package parsers.jaxb;
 
-import model.OceanParameters;
+import model.parameters.OceanParameters;
 import parsers.OceanParamsWriter;
 
 import javax.xml.bind.JAXBContext;

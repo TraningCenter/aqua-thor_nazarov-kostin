@@ -1,6 +1,6 @@
 package parsers;
 
-import model.OceanParameters;
+import model.parameters.OceanParameters;
 
 import java.io.InputStream;
 

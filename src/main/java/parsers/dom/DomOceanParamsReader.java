@@ -1,7 +1,6 @@
 package parsers.dom;
 
-import jdk.nashorn.internal.runtime.ParserException;
-import model.*;
+import model.parameters.*;
 import org.w3c.dom.*;
 import parsers.OceanParamsReader;
 

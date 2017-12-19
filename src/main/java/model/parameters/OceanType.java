@@ -1,4 +1,4 @@
-package model;
+package model.parameters;
 
 public enum OceanType {
     BORDERED,

@@ -1,11 +1,9 @@
 package parsers.sax;
 
-import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import model.OceanParameters;
+import model.parameters.OceanParameters;
 import org.xml.sax.SAXException;
 import parsers.OceanParamsWriter;
 
-import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;

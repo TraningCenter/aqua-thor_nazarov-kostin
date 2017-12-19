@@ -1,4 +1,6 @@
-import model.*;
+package parse;
+
+import model.parameters.*;
 
 public class TestUtil {
 

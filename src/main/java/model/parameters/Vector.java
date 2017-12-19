@@ -1,7 +1,4 @@
-package model;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+package model.parameters;
 
 public class Vector {
     private Integer x;

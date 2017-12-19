@@ -1,4 +1,6 @@
-import model.*;
+package parse;
+
+import model.parameters.OceanParameters;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

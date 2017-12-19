@@ -1,6 +1,10 @@
-package model;
+package model.parameters;
 
 public class Flow {
+
+    private Vector direction;
+    private Integer strength;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -19,8 +23,6 @@ public class Flow {
         return result;
     }
 
-    private Vector direction;
-    private Integer strength;
 
     public Flow(){}
 

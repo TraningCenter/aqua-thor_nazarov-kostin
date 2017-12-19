@@ -1,4 +1,4 @@
-package model;
+package model.parameters;
 
 public class FishParameters {
     private Integer reproductionPeriodTicks;
