@@ -6,6 +6,11 @@ public class Vector {
 
     public Vector(){}
 
+    public Vector(Vector vector){
+        this.x=vector.getX();
+        this.y=vector.getY();
+    }
+
     public Vector(Integer x, Integer y){
         this.x=x;
         this.y=y;

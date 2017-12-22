@@ -24,11 +24,6 @@ public class MovingOceanFishState implements OceanFishState{
     }
 
     private void moveToTarget() {
-        Vector direction = new Vector();
-
-        int diffX = oceanFish.getCurrentPosition().getX() - currentTarget.getPosition().getX();
-        int diffY = oceanFish.getCurrentPosition().getY() - currentTarget.getPosition().getY();
-
-        //TODO: moving in borderless
+        this.oceanFish.moveToTarget(currentTarget);
     }
 }

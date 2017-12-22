@@ -1,21 +1,20 @@
 package model.fish.implementation;
 
-import model.fish.interfaces.Fish;
-import model.fish.interfaces.OceanFishState;
-import model.fish.interfaces.ReproductionBehavior;
-import model.fish.interfaces.TargetCalculationFishStrategy;
+import model.fish.interfaces.*;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.Vector;
 
 public class OceanFish implements Fish {
 
-    private OceanSpace oceanSpace;
-    private OceanFishState oceanFishState;
     private FishType fishType;
-    private TargetCalculationFishStrategy targetCalculationFishStrategy;
-    private ReproductionBehavior reproductionBehavior;
 
     private Vector currentPosition;
+    private OceanSpace oceanSpace;
+
+    private OceanFishState oceanFishState;
+    private TargetCalculationFishStrategy targetCalculationFishStrategy;
+    private ReproductionBehavior reproductionBehavior;
+    private MoveToTargetStrategy moveToTargetStrategy;
 
     @Override
     public FishType getType() {
@@ -37,7 +36,11 @@ public class OceanFish implements Fish {
     }
 
     public Target calculateTargetPosition(){
-        return null;
+        return targetCalculationFishStrategy.calculateTarget(currentPosition, oceanSpace);
+    }
+
+    public void moveToTarget(Target target){
+        moveToTargetStrategy.moveToTarget(this, oceanSpace, target);
     }
 
     /*
