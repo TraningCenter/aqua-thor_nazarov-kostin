@@ -16,10 +16,6 @@ public class DefaultCell implements Cell {
         this.position = position;
     }
 
-    public DefaultCell() {
-
-    }
-
     @Override
     public Vector getPosition() {
         return new Vector(position);

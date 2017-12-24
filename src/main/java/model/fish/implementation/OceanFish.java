@@ -16,6 +16,20 @@ public class OceanFish implements Fish {
     private ReproductionBehavior reproductionBehavior;
     private MoveToTargetStrategy moveToTargetStrategy;
 
+    public OceanFish(FishType fishType, Vector startPosition,
+                     OceanSpace oceanSpace, OceanFishState oceanFishState,
+                     TargetCalculationFishStrategy targetCalculationFishStrategy,
+                     ReproductionBehavior reproductionBehavior,
+                     MoveToTargetStrategy moveToTargetStrategy) {
+        this.fishType = fishType;
+        this.currentPosition = startPosition;
+        this.oceanSpace = oceanSpace;
+        this.oceanFishState = oceanFishState;
+        this.targetCalculationFishStrategy = targetCalculationFishStrategy;
+        this.reproductionBehavior = reproductionBehavior;
+        this.moveToTargetStrategy = moveToTargetStrategy;
+    }
+
     @Override
     public FishType getType() {
         return null;

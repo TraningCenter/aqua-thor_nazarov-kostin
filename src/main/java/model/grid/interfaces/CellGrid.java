@@ -5,4 +5,6 @@ import model.parameters.Vector;
 
 public interface CellGrid {
     Cell getCell(Vector position);
+    Vector getSize();
+
 }
