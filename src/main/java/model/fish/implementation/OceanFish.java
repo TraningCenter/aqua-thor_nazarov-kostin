@@ -41,6 +41,11 @@ public class OceanFish implements Fish {
     }
 
     @Override
+    public void setCurrentPosition(Vector position) {
+        this.currentPosition=position;
+    }
+
+    @Override
     public void action() {
 
     }

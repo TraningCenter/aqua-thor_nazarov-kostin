@@ -6,5 +6,6 @@ import model.parameters.Vector;
 public interface Fish {
     FishType getType();
     Vector getCurrentPosition();
+    void setCurrentPosition(Vector position);
     void action();
 }

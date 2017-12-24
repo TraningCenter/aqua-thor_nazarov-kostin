@@ -5,6 +5,7 @@ import model.cell.implementation.DefaultRelativeCell;
 import model.cell.interfaces.RelativeCell;
 import model.grid.interfaces.CellGrid;
 import model.ocean.interfaces.CellsBehavior;
+import model.ocean.interfaces.Ocean;
 import model.parameters.Vector;
 
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ public class BorderedCellBehavior implements CellsBehavior {
     }
 
     @Override
-    public void resolveBorderCells(DefaultOcean ocean) {
+    public void resolveBorderCells(Ocean ocean) {
 
     }
 }

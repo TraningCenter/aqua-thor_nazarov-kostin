@@ -39,6 +39,11 @@ public class DefaultOcean implements Ocean, OceanSpace {
     }
 
     @Override
+    public CellGrid getCellGrid() {
+        return grid;
+    }
+
+    @Override
     public List<RelativeCell> getCellsInRange(Vector position, Integer range) {
         return null;
     }

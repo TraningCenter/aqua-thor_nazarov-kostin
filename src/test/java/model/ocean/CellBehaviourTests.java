@@ -3,22 +3,27 @@ package model.ocean;
 import model.cell.implementation.DefaultCell;
 import model.cell.interfaces.Cell;
 import model.cell.interfaces.RelativeCell;
+import model.fish.implementation.FishType;
+import model.fish.implementation.OceanFish;
+import model.fish.interfaces.Fish;
 import model.grid.interfaces.CellGrid;
 import model.ocean.implementaion.BorderedCellBehavior;
 import model.ocean.implementaion.BorderlessCellBehavior;
 import model.ocean.implementaion.DefaultOcean;
 import model.ocean.interfaces.CellsBehavior;
+import model.ocean.interfaces.Ocean;
 import model.parameters.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CellBehaviourTests {
 
@@ -147,7 +152,63 @@ public class CellBehaviourTests {
         assertEquals(cellsInRange.get(22).getPosition(), new Vector(0,2));
         assertEquals(cellsInRange.get(23).getPosition(), new Vector(1,2));
         assertEquals(cellsInRange.get(24).getPosition(), new Vector(2,2));
+    }
 
+    @Test
+    public void canResolveBorderFishesOnBorderlessOcean(){
+        //Array
+        /*
+        00 10 20 30
+        01 11 21 31
+        02 12 22 32
+         */
+        int fishesCount = 3;
+        List<Vector> startPositions = new LinkedList<>();
+        List<Vector> afterResolvePositions = new LinkedList<>();
+        startPositions.add(new Vector(0,0));
+        afterResolvePositions.add(new Vector(3,2));
+
+        startPositions.add(new Vector(3,0));
+        afterResolvePositions.add(new Vector(0,2));
+
+        startPositions.add(new Vector(1,2));
+        afterResolvePositions.add(new Vector(1,0));
+
+        startPositions.add(new Vector(0,1));
+        afterResolvePositions.add(new Vector(3,1));
+
+        startPositions.add(new Vector(1,1));
+        afterResolvePositions.add(new Vector(1,1));
+
+        startPositions.add(new Vector(0,2));
+        afterResolvePositions.add(new Vector(3,0));
+
+        Vector size = new Vector(4,3);
+
+        CellsBehavior cellsBehavior = new BorderlessCellBehavior();
+        List<Fish> fishes = new LinkedList<>();
+        for (int i=0;i<fishesCount;i++){
+            Fish mockFish = mock(Fish.class);
+            when(mockFish.getCurrentPosition()).thenReturn(startPositions.get(i));
+            fishes.add(mockFish);
+        }
+
+        CellGrid mockCellGrid = mock(CellGrid.class);
+        when(mockCellGrid.getSize()).thenReturn(size);
+
+        Ocean mockOcean = mock(Ocean.class);
+        when(mockOcean.getFishes()).thenReturn(fishes);
+        when(mockOcean.getCellGrid()).thenReturn(mockCellGrid);
+
+        //Act
+        cellsBehavior.resolveBorderCells(mockOcean);
+
+        //Assert
+        for (int i=0;i<fishesCount;i++) {
+            ArgumentCaptor<Vector> positionCaptor = ArgumentCaptor.forClass(Vector.class);
+            verify(fishes.get(i)).setCurrentPosition(positionCaptor.capture());
+            assertEquals(afterResolvePositions.get(i), positionCaptor.getValue());
+        }
 
     }
 }

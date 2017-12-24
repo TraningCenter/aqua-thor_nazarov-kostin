@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface CellsBehavior {
     List<RelativeCell> getCellsInRange(CellGrid cellGrid, Vector position, Integer range);
-    void resolveBorderCells(DefaultOcean ocean);
+    void resolveBorderCells(Ocean ocean);
 }
