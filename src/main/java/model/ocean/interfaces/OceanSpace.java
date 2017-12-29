@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface OceanSpace {
     List<RelativeCell> getCellsInRange(Vector position, Integer range);
-    Vector modifyVelocity(Vector baseVelocity);
+    Vector modifyVelocity(Vector baseVelocity, Vector position);
     void addFish(Fish fish);
 }

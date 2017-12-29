@@ -49,8 +49,16 @@ public class DefaultOcean implements Ocean, OceanSpace {
     }
 
     @Override
-    public Vector modifyVelocity(Vector baseVelocity) {
-        return null;
+    public Vector modifyVelocity(Vector baseVelocity, Vector position) {
+        final Integer[] xVelocity = {baseVelocity.getX()};
+        final Integer[] yVelocity = {baseVelocity.getY()};
+
+        flows.stream().filter(flow -> flow.getRectangle().isInside(position)).forEach(flow -> {
+                xVelocity[0] +=(flow.getDirection().getX()>0?1:flow.getDirection().getX()==0?0:-1)*flow.getStrength();
+                yVelocity[0] +=(flow.getDirection().getY()>0?1:flow.getDirection().getY()==0?0:-1)*flow.getStrength();
+        });
+
+        return new Vector(xVelocity[0],yVelocity[0]);
     }
 
     @Override

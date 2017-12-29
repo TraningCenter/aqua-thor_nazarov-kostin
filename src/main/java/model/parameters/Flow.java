@@ -4,6 +4,7 @@ public class Flow {
 
     private Vector direction;
     private Integer strength;
+    private Rectangle rectangle;
 
     @Override
     public boolean equals(Object o) {
@@ -26,9 +27,10 @@ public class Flow {
 
     public Flow(){}
 
-    public Flow(Vector direction, Integer strength) {
+    public Flow(Vector direction, Integer strength, Rectangle rectangle) {
         this.direction = direction;
         this.strength = strength;
+        this.rectangle = rectangle;
     }
 
     public Integer getStrength() {
@@ -45,5 +47,13 @@ public class Flow {
 
     public void setDirection(Vector direction) {
         this.direction = direction;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
     }
 }
