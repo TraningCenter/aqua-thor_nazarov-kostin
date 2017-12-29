@@ -51,7 +51,7 @@ public class OceanFish implements Fish {
     }
 
     public void changeState(OceanFishState nextFishState){
-
+        this.oceanFishState = nextFishState;
     }
 
     public Target calculateTargetPosition(){

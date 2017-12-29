@@ -26,4 +26,12 @@ public class MovingOceanFishState implements OceanFishState{
     private void moveToTarget() {
         this.oceanFish.moveToTarget(currentTarget);
     }
+
+    public Target getCurrentTarget() {
+        return currentTarget;
+    }
+
+    public void setCurrentTarget(Target currentTarget) {
+        this.currentTarget = currentTarget;
+    }
 }

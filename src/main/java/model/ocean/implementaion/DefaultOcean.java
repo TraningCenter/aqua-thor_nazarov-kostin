@@ -35,7 +35,7 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public List<Fish> getFishes() {
-        return null;
+        return fishes;
     }
 
     @Override
