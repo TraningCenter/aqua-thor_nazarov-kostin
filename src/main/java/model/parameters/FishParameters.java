@@ -5,6 +5,7 @@ public class FishParameters {
     private Integer lifeTimeTicks;
     private Integer starvationTimeTicks;
     private Integer smellSenseDistance;
+    private Integer timeToMoveThroughOneCell;
 
     @Override
     public boolean equals(Object o) {
@@ -30,11 +31,12 @@ public class FishParameters {
 
     public FishParameters(){}
 
-    public FishParameters(Integer reproductionPeriodTicks, Integer lifeTimeTicks, Integer starvationTimeTicks, Integer smellSenseDistance) {
+    public FishParameters(Integer reproductionPeriodTicks, Integer lifeTimeTicks, Integer starvationTimeTicks, Integer smellSenseDistance, Integer timeToMoveThroughOneCell) {
         this.reproductionPeriodTicks = reproductionPeriodTicks;
         this.lifeTimeTicks = lifeTimeTicks;
         this.starvationTimeTicks = starvationTimeTicks;
         this.smellSenseDistance = smellSenseDistance;
+        this.timeToMoveThroughOneCell = timeToMoveThroughOneCell;
     }
 
     public Integer getStarvationTimeTicks() {
@@ -67,5 +69,13 @@ public class FishParameters {
 
     public void setSmellSenseDistance(Integer smellSenseDistance) {
         this.smellSenseDistance = smellSenseDistance;
+    }
+
+    public Integer getTimeToMoveThroughOneCell() {
+        return timeToMoveThroughOneCell;
+    }
+
+    public void setTimeToMoveThroughOneCell(Integer timeToMoveThroughOneCell) {
+        this.timeToMoveThroughOneCell = timeToMoveThroughOneCell;
     }
 }

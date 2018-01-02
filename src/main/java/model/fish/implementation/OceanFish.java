@@ -2,6 +2,7 @@ package model.fish.implementation;
 
 import model.fish.interfaces.*;
 import model.ocean.interfaces.OceanSpace;
+import model.parameters.FishParameters;
 import model.parameters.Vector;
 
 public class OceanFish implements Fish {
@@ -15,29 +16,39 @@ public class OceanFish implements Fish {
     private TargetCalculationFishStrategy targetCalculationFishStrategy;
     private ReproductionBehavior reproductionBehavior;
     private MoveToTargetStrategy moveToTargetStrategy;
+    private TargetCellPredicate targetCellPredicate;
+    private TargetPriorityCalcFunction targetPriorityCalcFunction;
 
-    public OceanFish(FishType fishType, Vector startPosition,
+    private FishParameters lifeParameters;
+
+    public OceanFish(FishType fishType, FishParameters fishParameters,
+                     Vector startPosition,
                      OceanSpace oceanSpace, OceanFishState oceanFishState,
                      TargetCalculationFishStrategy targetCalculationFishStrategy,
                      ReproductionBehavior reproductionBehavior,
-                     MoveToTargetStrategy moveToTargetStrategy) {
+                     MoveToTargetStrategy moveToTargetStrategy,
+                     TargetCellPredicate targetCellPredicate,
+                     TargetPriorityCalcFunction targetPriorityCalcFunction) {
         this.fishType = fishType;
+        this.lifeParameters = fishParameters;
         this.currentPosition = startPosition;
         this.oceanSpace = oceanSpace;
         this.oceanFishState = oceanFishState;
         this.targetCalculationFishStrategy = targetCalculationFishStrategy;
         this.reproductionBehavior = reproductionBehavior;
         this.moveToTargetStrategy = moveToTargetStrategy;
+        this.targetCellPredicate = targetCellPredicate;
+        this.targetPriorityCalcFunction = targetPriorityCalcFunction;
     }
 
     @Override
     public FishType getType() {
-        return null;
+        return fishType;
     }
 
     @Override
     public Vector getCurrentPosition() {
-        return null;
+        return currentPosition;
     }
 
     @Override
@@ -47,7 +58,7 @@ public class OceanFish implements Fish {
 
     @Override
     public void action() {
-
+        this.oceanFishState.action();
     }
 
     public void changeState(OceanFishState nextFishState){
@@ -55,10 +66,12 @@ public class OceanFish implements Fish {
     }
 
     public Target calculateTargetPosition(){
-        return targetCalculationFishStrategy.calculateTarget(currentPosition, oceanSpace);
+        return targetCalculationFishStrategy.calculateTarget(currentPosition, lifeParameters.getSmellSenseDistance(),
+                oceanSpace, targetCellPredicate, targetPriorityCalcFunction);
     }
 
     public void moveToTarget(Target target){
+
         moveToTargetStrategy.moveToTarget(this, oceanSpace, target);
     }
 
@@ -69,6 +82,7 @@ public class OceanFish implements Fish {
     0 -1 Down
      */
     public void move(Vector direction){
-
+        currentPosition.setX(currentPosition.getX()+direction.getX());
+        currentPosition.setY(currentPosition.getY()+direction.getY());
     }
 }

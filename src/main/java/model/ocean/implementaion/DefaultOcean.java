@@ -1,5 +1,6 @@
 package model.ocean.implementaion;
 
+import model.cell.interfaces.Cell;
 import model.cell.interfaces.RelativeCell;
 import model.fish.interfaces.Fish;
 import model.fish.interfaces.OceanFishState;
@@ -45,7 +46,7 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public List<RelativeCell> getCellsInRange(Vector position, Integer range) {
-        return null;
+        return cellsBehavior.getCellsInRange(grid,position,range);
     }
 
     @Override
@@ -64,5 +65,10 @@ public class DefaultOcean implements Ocean, OceanSpace {
     @Override
     public void addFish(Fish fish) {
 
+    }
+
+    @Override
+    public Cell getCell(Vector position) {
+        return this.grid.getCell(position);
     }
 }

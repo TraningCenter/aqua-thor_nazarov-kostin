@@ -3,7 +3,10 @@ package model.fish;
 import model.fish.implementation.*;
 import model.fish.interfaces.ReproductionBehavior;
 import model.fish.interfaces.TargetCalculationFishStrategy;
+import model.fish.interfaces.TargetCellPredicate;
+import model.fish.interfaces.TargetPriorityCalcFunction;
 import model.ocean.interfaces.OceanSpace;
+import model.parameters.FishParameters;
 import model.parameters.Vector;
 
 import static org.mockito.Mockito.mock;
@@ -17,11 +20,15 @@ public class Util {
         TargetCalculationFishStrategy targetCalculationFishStrategy = mock(TargetCalculationFishStrategy.class);
         OceanSpace mockOceanSpace = mock(OceanSpace.class);
 
-        OceanFish oceanFish = new OceanFish(FishType.PASSIVE, startPosition,
+        OceanFish oceanFish = new OceanFish(FishType.PASSIVE,
+                mock(FishParameters.class),
+                startPosition,
                 mockOceanSpace, new DoingNothingOceanFishState(),
                 targetCalculationFishStrategy,
                 mockReproductionBehavior,
-                borderedMoveToTargetStrategy);
+                borderedMoveToTargetStrategy,
+                mock(TargetCellPredicate.class),
+                mock(TargetPriorityCalcFunction.class));
 
         MovingOceanFishState startState = new MovingOceanFishState(oceanFish);
         startState.setCurrentTarget(currentTarget);
