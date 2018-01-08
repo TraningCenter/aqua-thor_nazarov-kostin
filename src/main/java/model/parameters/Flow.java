@@ -56,4 +56,13 @@ public class Flow {
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
+
+    @Override
+    public String toString() {
+        return "Flow{" +
+                "direction=" + direction +
+                ", strength=" + strength +
+                ", rectangle=" + rectangle +
+                '}';
+    }
 }

@@ -45,20 +45,20 @@ public class BorderlessCellBehavior implements CellsBehavior {
     }
 
     @Override
-    public void resolveBorderCells(Ocean ocean) {
-        Stream<Fish> fishesOnBorder = ocean.getFishes().stream().filter(fish -> checkIfOnBorder(fish, ocean.getCellGrid()));
-        fishesOnBorder.forEach(fish -> fish.setCurrentPosition(calculateAfterBorderPosition(fish.getCurrentPosition(), ocean.getCellGrid())));
-    }
+    public Vector getNewPosition(CellGrid cellGrid, Vector position, Vector direction) {
+        int nextX = position.getX() + direction.getX();
+        int nextY = position.getY() + direction.getY();
 
-    private Vector calculateAfterBorderPosition(Vector currentPosition, CellGrid grid) {
-        int positionX = getAfterBorderPosition(currentPosition.getX(), grid.getSize().getX()-1, 1);
-        int positionY = getAfterBorderPosition(currentPosition.getY(), grid.getSize().getY()-1, 1);
+        if (nextX<0)
+            nextX=cellGrid.getSize().getX()+nextX;
+        else if (nextX>=cellGrid.getSize().getX())
+            nextX=cellGrid.getSize().getX()%nextX;
 
-        return new Vector(positionX, positionY);
-    }
+        if (nextY<0)
+            nextY=cellGrid.getSize().getY()+nextY;
+        else if (nextY>=cellGrid.getSize().getY())
+            nextY=cellGrid.getSize().getY()%nextY;
 
-    private boolean checkIfOnBorder(Fish fish, CellGrid grid){
-        return fish.getCurrentPosition().getX() == 0 || fish.getCurrentPosition().getX() == grid.getSize().getX()-1 ||
-                fish.getCurrentPosition().getY() == 0 || fish.getCurrentPosition().getY() == grid.getSize().getY()-1;
+        return new Vector(nextX,nextY);
     }
 }

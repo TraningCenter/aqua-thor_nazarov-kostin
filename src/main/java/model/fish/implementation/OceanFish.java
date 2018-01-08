@@ -1,6 +1,10 @@
 package model.fish.implementation;
 
+import model.fish.implementation.target.Target;
 import model.fish.interfaces.*;
+import model.fish.interfaces.target.TargetCalculationFishStrategy;
+import model.fish.interfaces.target.TargetCellPredicate;
+import model.fish.interfaces.target.TargetPriorityCalcFunction;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
 import model.parameters.Vector;
@@ -75,6 +79,15 @@ public class OceanFish implements Fish {
         moveToTargetStrategy.moveToTarget(this, oceanSpace, target);
     }
 
+    private Integer getCurrentTimeToMove(){
+
+        return lifeParameters.getTimeToMoveThroughOneCell();
+    }
+
+    public Integer getTimeToMoveToPosition(Vector target){
+        return getCurrentTimeToMove() + oceanSpace.getFlowStrength(currentPosition, currentPosition.minus(target));
+    }
+
     /*
     1 0  Right
     -1 0 Left
@@ -82,7 +95,12 @@ public class OceanFish implements Fish {
     0 -1 Down
      */
     public void move(Vector direction){
-        currentPosition.setX(currentPosition.getX()+direction.getX());
-        currentPosition.setY(currentPosition.getY()+direction.getY());
+
+        currentPosition=oceanSpace.getNewPosition(this.currentPosition, direction);
+
+    }
+
+    public FishParameters getLifeParameters(){
+        return this.lifeParameters;
     }
 }

@@ -1,7 +1,7 @@
-package model.fish.interfaces;
+package model.fish.interfaces.target;
 
 import model.cell.interfaces.RelativeCell;
-import model.fish.implementation.Target;
+import model.fish.implementation.target.Target;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.Vector;
 

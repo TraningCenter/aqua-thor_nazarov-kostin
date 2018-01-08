@@ -1,10 +1,11 @@
 package model.fish;
 
 import model.fish.implementation.*;
+import model.fish.implementation.target.Target;
 import model.fish.interfaces.ReproductionBehavior;
-import model.fish.interfaces.TargetCalculationFishStrategy;
-import model.fish.interfaces.TargetCellPredicate;
-import model.fish.interfaces.TargetPriorityCalcFunction;
+import model.fish.interfaces.target.TargetCalculationFishStrategy;
+import model.fish.interfaces.target.TargetCellPredicate;
+import model.fish.interfaces.target.TargetPriorityCalcFunction;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
 import model.parameters.Vector;

@@ -1,4 +1,4 @@
-package model.fish.interfaces;
+package model.fish.interfaces.target;
 
 import model.cell.interfaces.RelativeCell;
 

@@ -49,4 +49,24 @@ public class Vector {
         result = 31 * result + y.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
+    public Vector minus(Vector other){
+        return new Vector(this.getX() - other.getX(), this.getY() - other.getY());
+    }
+
+    public Vector plus(Vector other){
+        return new Vector(this.getX() + other.getX(), this.getY() + other.getY());
+    }
+
+    public static Vector Zero(){
+        return new Vector(0,0);
+    }
 }

@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class CellBehaviourTests {
+public class CellBehaviorTests {
 
     private CellGrid mockCellGrid;
     private Vector positionCenter;
@@ -158,59 +158,59 @@ public class CellBehaviourTests {
     }
 
     @Test
-    public void canResolveBorderFishesOnBorderlessOcean(){
+    public void canGiveNewPositionBorderless(){
         //Array
         /*
-        00 10 20 30
-        01 11 21 31
-        02 12 22 32
+        1 - current
+        2 - target
+        0) <- -1
+        000
+        102
+        000
+        1) -> +1
+        000
+        201
+        000
+        2) /\ -1
+        010
+        000
+        020
+        3) \/ +1
+        020
+        000
+        010
          */
-        int fishesCount = 3;
-        List<Vector> startPositions = new LinkedList<>();
-        List<Vector> afterResolvePositions = new LinkedList<>();
-        startPositions.add(new Vector(0,0));
-        afterResolvePositions.add(new Vector(3,2));
+        List<Vector> currentPositions = new LinkedList<>();
+        List<Vector> nextPosition = new LinkedList<>();
+        List<Vector> directions = new LinkedList<>();
 
-        startPositions.add(new Vector(3,0));
-        afterResolvePositions.add(new Vector(0,2));
+        currentPositions.add(new Vector(0,1));
+        directions.add(new Vector(-1,0));
+        nextPosition.add(new Vector(2,1));
 
-        startPositions.add(new Vector(1,2));
-        afterResolvePositions.add(new Vector(1,0));
+        currentPositions.add(new Vector(2,1));
+        directions.add(new Vector(1,0));
+        nextPosition.add(new Vector(0,1));
 
-        startPositions.add(new Vector(0,1));
-        afterResolvePositions.add(new Vector(3,1));
+        currentPositions.add(new Vector(1,0));
+        directions.add(new Vector(0,-1));
+        nextPosition.add(new Vector(1,2));
 
-        startPositions.add(new Vector(1,1));
-        afterResolvePositions.add(new Vector(1,1));
-
-        startPositions.add(new Vector(0,2));
-        afterResolvePositions.add(new Vector(3,0));
-
-        Vector size = new Vector(4,3);
+        currentPositions.add(new Vector(1,2));
+        directions.add(new Vector(0,1));
+        nextPosition.add(new Vector(1,0));
 
         CellsBehavior cellsBehavior = new BorderlessCellBehavior();
-        List<Fish> fishes = new LinkedList<>();
-        for (int i=0;i<fishesCount;i++){
-            Fish mockFish = mock(Fish.class);
-            when(mockFish.getCurrentPosition()).thenReturn(startPositions.get(i));
-            fishes.add(mockFish);
-        }
 
         CellGrid mockCellGrid = mock(CellGrid.class);
-        when(mockCellGrid.getSize()).thenReturn(size);
+        when(mockCellGrid.getSize()).thenReturn(new Vector(3,3));
 
-        Ocean mockOcean = mock(Ocean.class);
-        when(mockOcean.getFishes()).thenReturn(fishes);
-        when(mockOcean.getCellGrid()).thenReturn(mockCellGrid);
 
-        //Act
-        cellsBehavior.resolveBorderCells(mockOcean);
+        for (int i =0;i<currentPositions.size();i++){
 
-        //Assert
-        for (int i=0;i<fishesCount;i++) {
-            ArgumentCaptor<Vector> positionCaptor = ArgumentCaptor.forClass(Vector.class);
-            verify(fishes.get(i)).setCurrentPosition(positionCaptor.capture());
-            assertEquals(afterResolvePositions.get(i), positionCaptor.getValue());
+            //Act
+            //Assert
+            Assert.assertEquals(nextPosition.get(i), cellsBehavior.getNewPosition(mockCellGrid,currentPositions.get(i),directions.get(i)));
         }
     }
 }

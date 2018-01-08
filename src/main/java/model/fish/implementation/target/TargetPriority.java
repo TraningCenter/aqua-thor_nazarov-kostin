@@ -1,4 +1,4 @@
-package model.fish.implementation;
+package model.fish.implementation.target;
 
 public enum TargetPriority {
     LOW,

@@ -37,7 +37,11 @@ public class BorderedCellBehavior implements CellsBehavior {
     }
 
     @Override
-    public void resolveBorderCells(Ocean ocean) {
-
+    public Vector getNewPosition(CellGrid cellGrid, Vector position, Vector direction) {
+        Integer nextX = position.getX() + direction.getX();
+        Integer nextY = position.getY() + direction.getY();
+        if (nextX<0 || nextY<0 || nextX > cellGrid.getSize().getX() || nextY > cellGrid.getSize().getY())
+            return position;
+        return new Vector(nextX,nextY);
     }
 }

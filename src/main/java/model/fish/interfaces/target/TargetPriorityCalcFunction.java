@@ -1,7 +1,7 @@
-package model.fish.interfaces;
+package model.fish.interfaces.target;
 
 import model.cell.interfaces.RelativeCell;
-import model.fish.implementation.TargetPriority;
+import model.fish.implementation.target.TargetPriority;
 
 @FunctionalInterface
 public interface TargetPriorityCalcFunction {
