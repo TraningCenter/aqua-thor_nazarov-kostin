@@ -66,6 +66,10 @@ public class Vector {
         return new Vector(this.getX() + other.getX(), this.getY() + other.getY());
     }
 
+    public Double distanceTo(Vector other){
+        return Math.sqrt(Math.pow(other.getX() - this.getX(),2)+Math.pow(other.getY() - this.getY(),2));
+    }
+
     public static Vector Zero(){
         return new Vector(0,0);
     }

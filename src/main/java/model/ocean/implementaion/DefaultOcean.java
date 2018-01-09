@@ -3,7 +3,6 @@ package model.ocean.implementaion;
 import model.cell.interfaces.Cell;
 import model.cell.interfaces.RelativeCell;
 import model.fish.interfaces.Fish;
-import model.fish.interfaces.OceanFishState;
 import model.grid.interfaces.CellGrid;
 import model.ocean.interfaces.CellsBehavior;
 import model.ocean.interfaces.Ocean;
@@ -11,6 +10,7 @@ import model.ocean.interfaces.OceanSpace;
 import model.parameters.Flow;
 import model.parameters.Vector;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class DefaultOcean implements Ocean, OceanSpace {
     private CellGrid grid;
 
     private List<Fish> fishes = new LinkedList<>();
+    private List<Fish> deadFishes = new LinkedList<>();
 
     public DefaultOcean(CellsBehavior cellsBehavior, List<Flow> flows, CellGrid grid) {
         this.cellsBehavior = cellsBehavior;
@@ -29,9 +30,24 @@ public class DefaultOcean implements Ocean, OceanSpace {
         this.grid = grid;
     }
 
+    public DefaultOcean(CellsBehavior cellsBehavior, List<Flow> flows, CellGrid grid, Collection<Fish> fishCollection) {
+        this.cellsBehavior = cellsBehavior;
+        this.flows = flows;
+        this.grid = grid;
+        fishes.addAll(fishCollection);
+    }
+
     @Override
     public void update() {
-        this.fishes.forEach(fish -> fish.action());
+        for (Fish fish : this.fishes) {
+            fish.action();
+        }
+
+        removeDeadFishes();
+    }
+
+    private void removeDeadFishes() {
+        fishes.removeAll(this.deadFishes);
     }
 
     @Override
@@ -67,8 +83,20 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public void addFish(Fish fish) {
+        List<Fish> fishesInCurrentCell = this.grid.getCell(fish.getCurrentPosition()).getFishes();
+        if (!fishesInCurrentCell.contains(fish))
+            fishesInCurrentCell.add(fish);
+
         this.fishes.add(fish);
     }
+
+    @Override
+    public void removeFish(Fish fish) {
+        this.grid.getCell(fish.getCurrentPosition()).removeFish(fish);
+        this.deadFishes.add(fish);
+    }
+
+    public void addAllFishes(Collection<Fish> fishCollection){ this.fishes.addAll(fishCollection); }
 
     @Override
     public Cell getCell(Vector position) {

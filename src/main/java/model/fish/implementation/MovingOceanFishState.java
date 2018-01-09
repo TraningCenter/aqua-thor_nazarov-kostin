@@ -18,6 +18,8 @@ public class MovingOceanFishState implements OceanFishState{
 
     @Override
     public void action() {
+        oceanFish.eatIfNeed();
+
         calculateTargetIfNeed();
         moveToTarget();
     }
@@ -41,13 +43,13 @@ public class MovingOceanFishState implements OceanFishState{
             rest();
     }
 
+    private void rest() {
+        restTimeTicks++;
+    }
+
     private boolean isRestedToMove(Vector position) {
 
         return restTimeTicks>=oceanFish.getTimeToMoveToPosition(position);
-    }
-
-    private void rest() {
-        restTimeTicks++;
     }
 
     private boolean isReachedTarget(){
@@ -65,4 +67,5 @@ public class MovingOceanFishState implements OceanFishState{
     public int getRestTimeTicks() {
         return restTimeTicks;
     }
+
 }

@@ -4,6 +4,10 @@ import model.parameters.Vector;
 
 import java.util.Objects;
 
+/***
+ * Class which implementing target for fish
+ * has priority and position
+ */
 public class Target {
     private Vector targetPosition;
     private TargetPriority targetPriority;

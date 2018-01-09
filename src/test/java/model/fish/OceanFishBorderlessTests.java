@@ -3,7 +3,7 @@ package model.fish;
 import model.cell.implementation.DefaultCell;
 import model.cell.interfaces.Cell;
 import model.fish.implementation.*;
-import model.fish.implementation.target.RandomTargetCalculationFishStrategy;
+import model.fish.implementation.target.EscapeTargetCalculationFishStrategy;
 import model.fish.implementation.target.Target;
 import model.fish.implementation.target.TargetPriority;
 import model.fish.interfaces.MoveToTargetStrategy;
@@ -13,7 +13,6 @@ import model.fish.interfaces.target.TargetCellPredicate;
 import model.fish.interfaces.target.TargetPriorityCalcFunction;
 import model.grid.implementation.DefaultCellGrid;
 import model.grid.interfaces.CellGrid;
-import model.ocean.implementaion.BorderedCellBehavior;
 import model.ocean.implementaion.BorderlessCellBehavior;
 import model.ocean.implementaion.DefaultOcean;
 import model.ocean.interfaces.OceanSpace;
@@ -44,7 +43,7 @@ public class OceanFishBorderlessTests {
     @Before
     public void init() {
         fishType = FishType.PASSIVE;
-        fishParameters = new FishParameters(50, 200, 20, 2, 3);
+        fishParameters = new FishParameters(50000, 20000, 20000, 2, 3);
         startPosition = new Vector(1, 1);
         // flows = new LinkedList<Flow>(){{add(new Flow(Directions.RIGHT,1,new Rectangle(0,0,10,10)));}};
         flows = new LinkedList<>();
@@ -60,13 +59,13 @@ public class OceanFishBorderlessTests {
         cellGrid = new DefaultCellGrid(cells);
         oceanSpace = new DefaultOcean(new BorderlessCellBehavior(), flows, cellGrid);
 
-        TargetCalculationFishStrategy targetCalculationFishStrategy = new RandomTargetCalculationFishStrategy();
+        TargetCalculationFishStrategy targetCalculationFishStrategy = new EscapeTargetCalculationFishStrategy();
         MoveToTargetStrategy moveToTargetStrategy = new BorderlessMoveToTargetStrategy();
         targetCellPredicate = cell -> true;
         TargetPriorityCalcFunction targetPriorityCalcFunction = relativeCell -> TargetPriority.HIGH;
 
         fish = new OceanFish(fishType, fishParameters, startPosition, oceanSpace, new DoingNothingOceanFishState(),
-                targetCalculationFishStrategy, mock(ReproductionBehavior.class), moveToTargetStrategy, targetCellPredicate, targetPriorityCalcFunction);
+                targetCalculationFishStrategy, mock(ReproductionBehavior.class), moveToTargetStrategy, targetCellPredicate, targetPriorityCalcFunction, new PassiveEatingOceanFishStrategy());
     }
 
 

@@ -22,8 +22,13 @@ public class OceanFish implements Fish {
     private MoveToTargetStrategy moveToTargetStrategy;
     private TargetCellPredicate targetCellPredicate;
     private TargetPriorityCalcFunction targetPriorityCalcFunction;
+    private EatingOceanFishStrategy eatingOceanFishStrategy;
 
     private FishParameters lifeParameters;
+
+    private int noBirthTimeTicks = 0;
+    private int starvationTimeTicks = 0;
+    private int ageTimeTicks = 0;
 
     public OceanFish(FishType fishType, FishParameters fishParameters,
                      Vector startPosition,
@@ -32,7 +37,8 @@ public class OceanFish implements Fish {
                      ReproductionBehavior reproductionBehavior,
                      MoveToTargetStrategy moveToTargetStrategy,
                      TargetCellPredicate targetCellPredicate,
-                     TargetPriorityCalcFunction targetPriorityCalcFunction) {
+                     TargetPriorityCalcFunction targetPriorityCalcFunction,
+                     EatingOceanFishStrategy eatingOceanFishStrategy) {
         this.fishType = fishType;
         this.lifeParameters = fishParameters;
         this.currentPosition = startPosition;
@@ -43,6 +49,7 @@ public class OceanFish implements Fish {
         this.moveToTargetStrategy = moveToTargetStrategy;
         this.targetCellPredicate = targetCellPredicate;
         this.targetPriorityCalcFunction = targetPriorityCalcFunction;
+        this.eatingOceanFishStrategy = eatingOceanFishStrategy;
     }
 
     @Override
@@ -62,7 +69,37 @@ public class OceanFish implements Fish {
 
     @Override
     public void action() {
+        if (tooOld() || starvationIsToHigh())
+            die();
+        
+        if (canGiveBirth())
+            giveBirth();
+
         this.oceanFishState.action();
+
+        updateTicks();
+    }
+
+    private boolean tooOld() {
+        return ageTimeTicks>=lifeParameters.getLifeTimeTicks();
+    }
+
+    private void die() {
+        this.oceanSpace.removeFish(this);
+    }
+
+    private boolean starvationIsToHigh() {
+        return starvationTimeTicks>=lifeParameters.getStarvationTimeTicks();
+    }
+
+    private void updateTicks() {
+        noBirthTimeTicks++;
+        starvationTimeTicks++;
+        ageTimeTicks++;
+    }
+
+    private boolean canGiveBirth(){
+        return noBirthTimeTicks>=getLifeParameters().getReproductionPeriodTicks();
     }
 
     public void changeState(OceanFishState nextFishState){
@@ -95,12 +132,32 @@ public class OceanFish implements Fish {
     0 -1 Down
      */
     public void move(Vector direction){
+        Vector newPosition = oceanSpace.getNewPosition(this.currentPosition, direction);
 
-        currentPosition=oceanSpace.getNewPosition(this.currentPosition, direction);
+        this.oceanSpace.getCell(currentPosition).removeFish(this);
+        this.oceanSpace.getCell(newPosition).add(this);
 
+        currentPosition=newPosition;
     }
 
     public FishParameters getLifeParameters(){
         return this.lifeParameters;
+    }
+
+    public void giveBirth(){
+        reproductionBehavior.birth(oceanSpace, currentPosition);
+        noBirthTimeTicks=0;
+    }
+
+    public void resetStarvationTimeTicks(){
+        starvationTimeTicks=0;
+    }
+
+    public int getCurrentStarvationTimeTicks() {
+        return starvationTimeTicks;
+    }
+
+    public void eatIfNeed(){
+        this.eatingOceanFishStrategy.eatIfNeed(this,oceanSpace);
     }
 }

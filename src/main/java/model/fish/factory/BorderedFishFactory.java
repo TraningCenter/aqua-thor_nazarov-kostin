@@ -1,9 +1,7 @@
 package model.fish.factory;
 
 import model.fish.implementation.*;
-import model.fish.implementation.target.PassiveTargetCellPredicate;
-import model.fish.implementation.target.RandomTargetCalculationFishStrategy;
-import model.fish.implementation.target.TargetPriority;
+import model.fish.implementation.target.*;
 import model.fish.interfaces.Fish;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
@@ -18,22 +16,37 @@ public class BorderedFishFactory implements FishFactory {
             case PASSIVE:
                 return createPassiveFish(startPosition, fishParameters, oceanSpace);
             case AGGRESSIVE:
-                break;
+                return createAggressiveFish(startPosition, fishParameters, oceanSpace);
         }
         return null;
     }
 
-    private Fish createPassiveFish(Vector startPosition, FishParameters fishParameters, OceanSpace oceanSpace){
+    private OceanFish createPassiveFish(Vector startPosition, FishParameters fishParameters, OceanSpace oceanSpace){
         return new OceanFish(FishType.PASSIVE,
                 fishParameters,
                 startPosition,
                 oceanSpace,
                 new DoingNothingOceanFishState(),
-                new RandomTargetCalculationFishStrategy(),
-                new DefaultReproductionBehavior(),
+                new EscapeTargetCalculationFishStrategy(),
+                new DefaultReproductionBehavior(() -> createPassiveFish(Vector.Zero(), fishParameters, oceanSpace)),
                 new BorderedMoveToTargetStrategy(),
                 new PassiveTargetCellPredicate(),
-                relativeCell -> TargetPriority.HIGH);
+                relativeCell -> TargetPriority.HIGH,
+                new PassiveEatingOceanFishStrategy());
+    }
+
+    private OceanFish createAggressiveFish(Vector startPosition, FishParameters fishParameters, OceanSpace oceanSpace){
+        return new OceanFish(FishType.PASSIVE,
+                fishParameters,
+                startPosition,
+                oceanSpace,
+                new DoingNothingOceanFishState(),
+                new HuntingTargetCalculationFishStrategy(),
+                new DefaultReproductionBehavior(() -> createAggressiveFish(Vector.Zero(), fishParameters, oceanSpace)),
+                new BorderedMoveToTargetStrategy(),
+                new AggressiveTargetCellPredicate(),
+                relativeCell -> TargetPriority.HIGH,
+                new AggressiveEatingOceanFishStrategy());
     }
 
 

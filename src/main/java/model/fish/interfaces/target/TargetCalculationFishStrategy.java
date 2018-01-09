@@ -7,6 +7,9 @@ import model.parameters.Vector;
 
 import java.util.function.Predicate;
 
+/***
+ * Strategy for calculation next target in range
+ */
 public interface TargetCalculationFishStrategy {
     Target calculateTarget(Vector currentPosition, Integer range, OceanSpace oceanSpace,
                            Predicate<RelativeCell> cellPredicate, TargetPriorityCalcFunction targetPriorityCalcFunction);

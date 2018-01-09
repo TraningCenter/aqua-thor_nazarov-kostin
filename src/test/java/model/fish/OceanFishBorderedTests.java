@@ -4,7 +4,7 @@ import model.cell.implementation.DefaultCell;
 import model.cell.interfaces.Cell;
 import model.cell.interfaces.RelativeCell;
 import model.fish.implementation.*;
-import model.fish.implementation.target.RandomTargetCalculationFishStrategy;
+import model.fish.implementation.target.EscapeTargetCalculationFishStrategy;
 import model.fish.implementation.target.Target;
 import model.fish.implementation.target.TargetPriority;
 import model.fish.interfaces.*;
@@ -21,7 +21,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.text.Position;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,15 +37,18 @@ public class OceanFishBorderedTests {
     Integer size = 5;
     Cell[][] cells;
     CellGrid cellGrid;
-    OceanSpace oceanSpace;
+    DefaultOcean defaultOcean;
 
     OceanFish fish;
     private TargetCellPredicate targetCellPredicate;
+    private BorderedMoveToTargetStrategy moveToTargetStrategy;
+    private TargetPriorityCalcFunction targetPriorityCalcFunction;
+    private TargetCalculationFishStrategy targetCalculationFishStrategy;
 
     @Before
     public void init(){
         fishType = FishType.PASSIVE;
-        fishParameters = new FishParameters(50,200,20,2,3);
+        fishParameters = new FishParameters(20000,20000,20000,2,3);
         startPosition = new Vector(1,1);
        // flows = new LinkedList<Flow>(){{add(new Flow(Directions.RIGHT,1,new Rectangle(0,0,10,10)));}};
         flows = new LinkedList<>();
@@ -60,21 +62,23 @@ public class OceanFishBorderedTests {
             }
 
         cellGrid = new DefaultCellGrid(cells);
-        oceanSpace = new DefaultOcean(new BorderedCellBehavior(), flows, cellGrid);
+        defaultOcean = new DefaultOcean(new BorderedCellBehavior(), flows, cellGrid);
 
-        TargetCalculationFishStrategy targetCalculationFishStrategy = new RandomTargetCalculationFishStrategy();
-        MoveToTargetStrategy moveToTargetStrategy = new BorderedMoveToTargetStrategy();
+        targetCalculationFishStrategy = new EscapeTargetCalculationFishStrategy();
+        moveToTargetStrategy = new BorderedMoveToTargetStrategy();
         targetCellPredicate = cell -> true;
-        TargetPriorityCalcFunction targetPriorityCalcFunction = relativeCell -> TargetPriority.HIGH;
+        targetPriorityCalcFunction = relativeCell -> TargetPriority.HIGH;
 
-        fish = new OceanFish(fishType, fishParameters, startPosition, oceanSpace, new DoingNothingOceanFishState(),
-                targetCalculationFishStrategy, mock(ReproductionBehavior.class), moveToTargetStrategy, targetCellPredicate,targetPriorityCalcFunction);
+        fish = new OceanFish(fishType, fishParameters, startPosition, defaultOcean, new DoingNothingOceanFishState(),
+                targetCalculationFishStrategy, mock(ReproductionBehavior.class), moveToTargetStrategy, targetCellPredicate,targetPriorityCalcFunction, new PassiveEatingOceanFishStrategy());
+
+        defaultOcean.addFish(fish);
     }
 
     @Test
     public void canCalcTarget(){
         //Array
-        List<RelativeCell> listOfRelativeCells = oceanSpace.getCellsInRange(fish.getCurrentPosition(), fishParameters.getSmellSenseDistance())
+        List<RelativeCell> listOfRelativeCells = defaultOcean.getCellsInRange(fish.getCurrentPosition(), fishParameters.getSmellSenseDistance())
                 .stream()
                 .filter(relativeCell -> targetCellPredicate.test(relativeCell) && !relativeCell.getRelativePosition().equals(Vector.Zero()))
                 .collect(Collectors.toList());
@@ -149,4 +153,32 @@ public class OceanFishBorderedTests {
                 Assert.assertNotEquals(lastTarget, movingOceanFishState.getCurrentTarget());
         }
     }
+
+    @Test
+    public void fishesAreDyingByAge(){
+        //Array
+        fishParameters.setLifeTimeTicks(10);
+
+        //Act
+        for (int i=0;i<9;i++){
+            defaultOcean.addFish(new OceanFish(fishType, fishParameters, startPosition, defaultOcean, new DoingNothingOceanFishState(),
+                            targetCalculationFishStrategy, mock(ReproductionBehavior.class), moveToTargetStrategy, targetCellPredicate,targetPriorityCalcFunction, new PassiveEatingOceanFishStrategy()));
+            System.out.println(defaultOcean.getFishes().size());
+        }
+
+        for (int i=0;i<9;i++){
+            defaultOcean.update();
+            System.out.println(defaultOcean.getFishes().size());
+        }
+
+        Assert.assertEquals(10, defaultOcean.getFishes().size());
+
+        for (int i=0;i<20;i++){
+            defaultOcean.update();
+            System.out.println(defaultOcean.getFishes().size());
+        }
+
+        Assert.assertEquals(0, defaultOcean.getFishes().size());
+    }
+
 }

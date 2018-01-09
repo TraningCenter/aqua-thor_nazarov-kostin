@@ -12,6 +12,7 @@ public interface OceanSpace {
     List<RelativeCell> getCellsInRange(Vector position, Integer range);
     Integer getFlowStrength(Vector position, Vector direction);
     void addFish(Fish fish);
+    void removeFish(Fish fish);
     Cell getCell(Vector position);
     Vector getOceanSize();
     Vector getNewPosition(Vector position, Vector direction);

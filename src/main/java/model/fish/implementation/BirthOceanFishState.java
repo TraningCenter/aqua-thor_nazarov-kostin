@@ -6,12 +6,12 @@ public class BirthOceanFishState implements OceanFishState {
 
     private OceanFish oceanFish;
     private Integer tickToBecomeAdult;
-    private Integer tickCount=0;
+    private Integer tickCount;
 
-    public BirthOceanFishState(OceanFish oceanFish, Integer tickToBecomeAdult) {
+    public BirthOceanFishState(OceanFish oceanFish) {
 
         this.oceanFish = oceanFish;
-        this.tickToBecomeAdult = tickToBecomeAdult;
+        this.tickToBecomeAdult = oceanFish.getLifeParameters().getLifeTimeTicks();
     }
 
     @Override
