@@ -23,7 +23,7 @@ public class JaxbTests {
         initOceanParameters = TestUtil.getTestOceanParameters();
     }
 
-    @Test
+  //  @Test
     public void canWrite() throws UnsupportedEncodingException {
         //Array
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -38,7 +38,7 @@ public class JaxbTests {
         Assert.assertEquals(initXmlString, xmlString);
     }
 
-    @Test
+  //  @Test
     public void canRead() throws UnsupportedEncodingException {
         //Array
         ByteArrayInputStream inputStream = new ByteArrayInputStream(initXmlString.getBytes(StandardCharsets.UTF_8.name()));

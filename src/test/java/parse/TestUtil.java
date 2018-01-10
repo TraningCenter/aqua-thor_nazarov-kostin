@@ -33,12 +33,12 @@ public class TestUtil {
     //TODO: multiple flows
     public static OceanParameters getTestOceanParameters() {
         throw new UnsupportedOperationException();
-        /*
+/*
         OceanParameters initOceanParameters = new OceanParameters();
         initOceanParameters.setOceanSize(new Vector(20, 10));
 
 
-        initOceanParameters.setFlow(new Flow(new Vector(1, 0), 1));
+        initOceanParameters.setFlows(new Flow(new Vector(1, 0), 1));
         initOceanParameters.setPassiveFishCount(15);
         initOceanParameters.setAggressiveFishCount(5);
         initOceanParameters.setPassiveFishParameters(new FishParameters(10, 100, 10, 3));

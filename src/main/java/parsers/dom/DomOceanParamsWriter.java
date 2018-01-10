@@ -1,9 +1,6 @@
 package parsers.dom;
 
-import model.parameters.FishParameters;
-import model.parameters.Flow;
-import model.parameters.OceanParameters;
-import model.parameters.Vector;
+import model.parameters.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import parsers.OceanParamsWriter;
@@ -17,6 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.OutputStream;
+import java.util.List;
 
 public class DomOceanParamsWriter implements OceanParamsWriter {
 
@@ -45,7 +43,7 @@ public class DomOceanParamsWriter implements OceanParamsWriter {
 
         oceanParametersElement.appendChild(createOceanTypeElement(document, oceanParameters));
         oceanParametersElement.appendChild(createOceanSizeElement(document, oceanParameters));
-        oceanParametersElement.appendChild(createFlowElement(document,oceanParameters));
+        oceanParametersElement.appendChild(createFlowsElement(document,oceanParameters));
         oceanParametersElement.appendChild(createPassiveFishCountElement(document,oceanParameters));
         oceanParametersElement.appendChild(createAggressiveFishCountElement(document,oceanParameters));
         oceanParametersElement.appendChild(createPassiveFishParameters(document,oceanParameters));
@@ -74,14 +72,36 @@ public class DomOceanParamsWriter implements OceanParamsWriter {
         return createVectorElement(document, "oceanSize", oceanParameters.getOceanSize());
     }
 
-    private Element createFlowElement(Document document, OceanParameters oceanParameters) {
-        Flow flow = oceanParameters.getFlow();
+    private Element createFlowsElement(Document document,OceanParameters oceanParameters){
+        List<Flow> flows = oceanParameters.getFlows();
+        Element flowsElement = document.createElement("flows");
+        for (Flow flow:flows){
+            flowsElement.appendChild(createFlowElement(document,flow));
+        }
+        return flowsElement;
+    }
+
+    private Element createFlowElement(Document document, Flow flow) {
 
         Element flowElement = document.createElement("flow");
         flowElement.appendChild(createVectorElement(document, "direction", flow.getDirection()));
+        flowElement.appendChild(createRectangle(document,flow));
         flowElement.appendChild(createIntegerElementWithTextValue(document, "strength", flow.getStrength()));
 
         return flowElement;
+    }
+
+    private Element createRectangle(Document document,Flow flow){
+        Rectangle rectangle = flow.getRectangle();
+
+        Element rectangleElement = document.createElement("rectangle");
+
+        rectangleElement.appendChild(createIntegerElementWithTextValue(document,"x",rectangle.getX()));
+        rectangleElement.appendChild(createIntegerElementWithTextValue(document,"y",rectangle.getY()));
+        rectangleElement.appendChild(createIntegerElementWithTextValue(document,"width",rectangle.getWidth()));
+        rectangleElement.appendChild(createIntegerElementWithTextValue(document,"height",rectangle.getHeight()));
+
+        return rectangleElement;
     }
 
     private Element createOceanTypeElement(Document document, OceanParameters oceanParameters) {
@@ -98,6 +118,7 @@ public class DomOceanParamsWriter implements OceanParamsWriter {
         fishParametersElement.appendChild(createIntegerElementWithTextValue(document,"reproductionPeriodTicks",fishParameters.getReproductionPeriodTicks()));
         fishParametersElement.appendChild(createIntegerElementWithTextValue(document,"smellSenseDistance",fishParameters.getSmellSenseDistance()));
         fishParametersElement.appendChild(createIntegerElementWithTextValue(document,"starvationTimeTicks",fishParameters.getStarvationTimeTicks()));
+        fishParametersElement.appendChild(createIntegerElementWithTextValue(document,"timeToMoveThroughOneCell",fishParameters.getTimeToMoveThroughOneCell()));
 
         return fishParametersElement;
     }

@@ -11,11 +11,15 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsReader {
 
     private OceanParameters oceanParameters;
+    private List<Flow> flows;
     private Flow flow;
+    private Rectangle rectangle;
     private Vector sizeVector;
     private Vector directionVector;
     private OceanType oceanType;
@@ -27,6 +31,10 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
     private StringBuffer oceanTypeBuffer;
     private StringBuffer sizeXBuffer;
     private StringBuffer sizeYBuffer;
+    private StringBuffer rectangleXBuffer;
+    private StringBuffer rectangleYBuffer;
+    private StringBuffer rectangleWidthBuffer;
+    private StringBuffer rectangleHeightBuffer;
     private StringBuffer directionXBuffer;
     private StringBuffer directionYBuffer;
     private StringBuffer strengthBuffer;
@@ -36,11 +44,12 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
     private StringBuffer pasReproductionPeriodBuffer;
     private StringBuffer pasSmellSenseDistanceBuffer;
     private StringBuffer pasStarvationTimeBuffer;
+    private StringBuffer pasTimeMoveBuffer;
     private StringBuffer agrLifeTimeBuffer;
     private StringBuffer agrReproductionPeriodBuffer;
     private StringBuffer agrSmellSenseDistanceBuffer;
     private StringBuffer agrStarvationTimeBuffer;
-
+    private StringBuffer agrTimeMoveBuffer;
 
     public OceanParameters read(InputStream inputStream) {
         try {
@@ -79,6 +88,10 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                         charactersIdentifier = "directionX";
                         directionXBuffer = new StringBuffer();
                         break;
+                    case "rectangle":
+                        charactersIdentifier="rectangleX";
+                        rectangleXBuffer= new StringBuffer();
+                        break;
                 }
                 break;
             case "y":
@@ -91,10 +104,29 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                         charactersIdentifier = "directionY";
                         directionYBuffer = new StringBuffer();
                         break;
+                    case "rectangle":
+                        charactersIdentifier="rectangleY";
+                        rectangleYBuffer = new StringBuffer();
+                        break;
                 }
+                break;
+            case "flows":
+                flows = new ArrayList<Flow>();
                 break;
             case "flow":
                 flow = new Flow();
+                break;
+            case "rectangle":
+                rectangle = new Rectangle();
+                coordsIdentifier="rectangle";
+                break;
+            case "width":
+                charactersIdentifier="width";
+                rectangleWidthBuffer=new StringBuffer();
+                break;
+            case "height":
+                charactersIdentifier="height";
+                rectangleHeightBuffer=new StringBuffer();
                 break;
             case "direction":
                 directionVector = new Vector();
@@ -164,6 +196,18 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                         break;
                 }
                 break;
+            case "timeToMoveThroughOneCell":
+                switch (fishStrategyIdentifier) {
+                    case "pas":
+                        charactersIdentifier = "pasTimeMove";
+                        pasTimeMoveBuffer = new StringBuffer();
+                        break;
+                    case "agr":
+                        charactersIdentifier = "agrTimeMove";
+                        agrTimeMoveBuffer = new StringBuffer();
+                        break;
+                }
+                break;
             case "aggressiveFishParameters":
                 agrFishParams = new FishParameters();
                 fishStrategyIdentifier = "agr";
@@ -190,6 +234,18 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                 break;
             case "directionY":
                 directionYBuffer.append(ch, start, length);
+                break;
+            case "rectangleX":
+                rectangleXBuffer.append(ch,start,length);
+                break;
+            case "rectangleY":
+                rectangleYBuffer.append(ch,start,length);
+                break;
+            case "width":
+                rectangleWidthBuffer.append(ch,start,length);
+                break;
+            case "height":
+                rectangleHeightBuffer.append(ch,start,length);
                 break;
             case "strength":
                 strengthBuffer.append(ch, start, length);
@@ -223,6 +279,12 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                 break;
             case "agrStarvation":
                 agrStarvationTimeBuffer.append(ch, start, length);
+                break;
+            case "pasTimeMove":
+                pasTimeMoveBuffer.append(ch,start,length);
+                break;
+            case "agrTimeMove":
+                agrTimeMoveBuffer.append(ch,start,length);
                 break;
 
         }
@@ -262,6 +324,10 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                         charactersIdentifier = "";
                         directionVector.setX(Integer.valueOf(directionXBuffer.toString()));
                         break;
+                    case "rectangle":
+                        charactersIdentifier="";
+                        rectangle.setX(Integer.valueOf(rectangleXBuffer.toString()));
+                        break;
                 }
                 break;
             case "y":
@@ -274,10 +340,29 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                         charactersIdentifier = "";
                         directionVector.setY(Integer.valueOf(directionYBuffer.toString()));
                         break;
+                    case "rectangle":
+                        charactersIdentifier="";
+                        rectangle.setY(Integer.valueOf(rectangleYBuffer.toString()));
+                        break;
                 }
                 break;
+            case "flows":
+                oceanParameters.setFlows(flows);
+                break;
             case "flow":
-                oceanParameters.setFlow(flow);
+                flows.add(flow);
+                break;
+            case "rectangle":
+                coordsIdentifier="";
+                flow.setRectangle(rectangle);
+                break;
+            case "width":
+                charactersIdentifier="";
+                rectangle.setWidth(Integer.valueOf(rectangleWidthBuffer.toString()));
+                break;
+            case "height":
+                charactersIdentifier="";
+                rectangle.setHeight(Integer.valueOf(rectangleHeightBuffer.toString()));
                 break;
             case "direction":
                 coordsIdentifier = "";
@@ -344,6 +429,18 @@ public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsR
                     case "agr":
                         charactersIdentifier = "";
                         agrFishParams.setStarvationTimeTicks(Integer.valueOf(agrStarvationTimeBuffer.toString()));
+                        break;
+                }
+                break;
+            case "timeToMoveThroughOneCell":
+                switch (fishStrategyIdentifier) {
+                    case "pas":
+                        charactersIdentifier = "";
+                        pasFishParams.setTimeToMoveThroughOneCell(Integer.valueOf(pasTimeMoveBuffer.toString()));
+                        break;
+                    case "agr":
+                        charactersIdentifier = "";
+                        agrFishParams.setTimeToMoveThroughOneCell(Integer.valueOf(agrTimeMoveBuffer.toString()));
                         break;
                 }
                 break;

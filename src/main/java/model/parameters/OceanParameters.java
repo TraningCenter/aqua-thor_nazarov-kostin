@@ -1,14 +1,18 @@
 package model.parameters;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.List;
+
 
 @XmlRootElement
-@XmlType(propOrder = {"oceanType", "oceanSize", "flow", "passiveFishCount", "aggressiveFishCount", "passiveFishParameters", "aggressiveFishParameters"})
+@XmlType(propOrder = {"oceanType", "oceanSize","flows", "passiveFishCount", "aggressiveFishCount", "passiveFishParameters", "aggressiveFishParameters"})
 public class OceanParameters {
 
     private Vector oceanSize;
-    private Flow flow;
+    private List<Flow> flows;
     private OceanType oceanType;
     private Integer passiveFishCount;
     private Integer aggressiveFishCount;
@@ -17,9 +21,9 @@ public class OceanParameters {
 
     public OceanParameters(){}
 
-    public OceanParameters(Vector oceanSize, Flow flow, Integer passiveFishCount, Integer aggressiveFishCount, OceanType oceanType) {
+    public OceanParameters(Vector oceanSize, List<Flow> flows, Integer passiveFishCount, Integer aggressiveFishCount, OceanType oceanType) {
         this.oceanSize = oceanSize;
-        this.flow = flow;
+        this.flows = flows;
         this.passiveFishCount = passiveFishCount;
         this.aggressiveFishCount = aggressiveFishCount;
         this.oceanType = oceanType;
@@ -33,12 +37,14 @@ public class OceanParameters {
         this.oceanSize = oceanSize;
     }
 
-    public Flow getFlow() {
-        return flow;
+    @XmlElementWrapper(name = "flows")
+    @XmlElement(name = "flow")
+    public List<Flow> getFlows() {
+        return flows;
     }
 
-    public void setFlow(Flow flow) {
-        this.flow = flow;
+    public void setFlows(List<Flow> flows) {
+        this.flows = flows;
     }
 
     public Integer getPassiveFishCount() {
@@ -89,7 +95,7 @@ public class OceanParameters {
         OceanParameters that = (OceanParameters) o;
 
         if (!oceanSize.equals(that.oceanSize)) return false;
-        if (!flow.equals(that.flow)) return false;
+        if (!flows.equals(that.flows)) return false;
         if (oceanType != that.oceanType) return false;
         if (!passiveFishCount.equals(that.passiveFishCount)) return false;
         if (!aggressiveFishCount.equals(that.aggressiveFishCount)) return false;
@@ -100,8 +106,10 @@ public class OceanParameters {
     @Override
     public int hashCode() {
         int result = oceanSize.hashCode();
-        result = 31 * result + flow.hashCode();
         result = 31 * result + oceanType.hashCode();
+       for (Flow flow: flows) {
+           result = 31 * result + flow.hashCode();
+       }
         result = 31 * result + passiveFishCount.hashCode();
         result = 31 * result + aggressiveFishCount.hashCode();
         result = 31 * result + passiveFishParameters.hashCode();

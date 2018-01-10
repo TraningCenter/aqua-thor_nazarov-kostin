@@ -26,6 +26,7 @@ public class FishParameters {
         result = 31 * result + lifeTimeTicks.hashCode();
         result = 31 * result + starvationTimeTicks.hashCode();
         result = 31 * result + smellSenseDistance.hashCode();
+        result=31* result + timeToMoveThroughOneCell.hashCode();
         return result;
     }
 

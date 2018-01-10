@@ -2,27 +2,9 @@ package model.parameters;
 
 public class Flow {
 
+    private Rectangle rectangle;
     private Vector direction;
     private Integer strength;
-    private Rectangle rectangle;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Flow flow = (Flow) o;
-
-        if (!direction.equals(flow.direction)) return false;
-        return strength.equals(flow.strength);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = direction.hashCode();
-        result = 31 * result + strength.hashCode();
-        return result;
-    }
 
 
     public Flow(){}
@@ -41,6 +23,16 @@ public class Flow {
         this.strength = strength;
     }
 
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+
     public Vector getDirection() {
         return direction;
     }
@@ -49,12 +41,24 @@ public class Flow {
         this.direction = direction;
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flow flow = (Flow) o;
+
+        if (rectangle != null ? !rectangle.equals(flow.rectangle) : flow.rectangle != null) return false;
+        if (direction != null ? !direction.equals(flow.direction) : flow.direction != null) return false;
+        return strength != null ? strength.equals(flow.strength) : flow.strength == null;
     }
 
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
+    @Override
+    public int hashCode() {
+        int result = rectangle != null ? rectangle.hashCode() : 0;
+        result = 31 * result + (direction != null ? direction.hashCode() : 0);
+        result = 31 * result + (strength != null ? strength.hashCode() : 0);
+        return result;
     }
 
     @Override
