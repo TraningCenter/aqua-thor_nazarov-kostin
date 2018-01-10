@@ -8,10 +8,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DomOceanParamsReader implements OceanParamsReader {
 
     private OceanParameters oceanParameters;
+    private List<Flow> flows;
+
 
     @Override
     public OceanParameters read(InputStream inputStream) {
@@ -34,9 +38,10 @@ public class DomOceanParamsReader implements OceanParamsReader {
         oceanParameters = new OceanParameters();
         Element documentElement = document.getDocumentElement();
 
+
         parseOceanType(getFirstElementByTagName(documentElement,"oceanType"));
         parseOceanSize(getFirstElementByTagName(documentElement,"oceanSize"));
-        parseOceanFlow(getFirstElementByTagName(documentElement,"flow"));
+        parseOceanFlows(getFirstElementByTagName(documentElement,"flows"));
         parsePassiveFishCount(getFirstElementByTagName(documentElement,"passiveFishCount"));
         parseAggressiveFishCount(getFirstElementByTagName(documentElement,"aggressiveFishCount"));
         parsePassiveFishParameters(getFirstElementByTagName(documentElement,"passiveFishParameters"));
@@ -60,13 +65,32 @@ public class DomOceanParamsReader implements OceanParamsReader {
         oceanParameters.setPassiveFishCount(parseInteger(passiveFishCountElement));
     }
 
+    private void parseOceanFlows(Element flowsElement){
+       flows = new ArrayList<>();
+        NodeList flowsNode = flowsElement.getElementsByTagName("flow");
+        for (int i=0;i<flowsNode.getLength();i++){
+           parseOceanFlow((Element)flowsNode.item(i));
+       }
+       oceanParameters.setFlows(flows);
+    }
+
     private void parseOceanFlow(Element flowElement) {
         Flow flow = new Flow();
 
+        flow.setRectangle(parseRectangle(getFirstElementByTagName(flowElement,"rectangle")));
         flow.setDirection(parseVector(getFirstElementByTagName(flowElement, "direction")));
         flow.setStrength(parseInteger(getFirstElementByTagName(flowElement, "strength")));
 
-        oceanParameters.setFlow(flow);
+        flows.add(flow);
+    }
+
+    private Rectangle parseRectangle(Element rectangleElement){
+        Rectangle rectangle = new Rectangle();
+        rectangle.setX(parseInteger(getFirstElementByTagName(rectangleElement,"x")));
+        rectangle.setY(parseInteger(getFirstElementByTagName(rectangleElement,"y")));
+        rectangle.setWidth(parseInteger(getFirstElementByTagName(rectangleElement,"width")));
+        rectangle.setHeight(parseInteger(getFirstElementByTagName(rectangleElement,"height")));
+        return rectangle;
     }
 
     private void parseOceanSize(Element oceanSizeElement) {
@@ -91,6 +115,7 @@ public class DomOceanParamsReader implements OceanParamsReader {
         fishParameters.setReproductionPeriodTicks(parseIntegerAtTag(fishParametersElement,"reproductionPeriodTicks"));
         fishParameters.setSmellSenseDistance(parseIntegerAtTag(fishParametersElement,"smellSenseDistance"));
         fishParameters.setStarvationTimeTicks(parseIntegerAtTag(fishParametersElement,"starvationTimeTicks"));
+        fishParameters.setTimeToMoveThroughOneCell(parseIntegerAtTag(fishParametersElement,"timeToMoveThroughOneCell"));
 
         return fishParameters;
     }
@@ -115,4 +140,5 @@ public class DomOceanParamsReader implements OceanParamsReader {
     private Element getFirstElementByTagName(Element elementToSearch, String tagName){
         return (Element)elementToSearch.getElementsByTagName(tagName).item(0);
     }
+
 }

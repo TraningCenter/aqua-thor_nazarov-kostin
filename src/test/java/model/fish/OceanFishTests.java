@@ -3,6 +3,7 @@ package model.fish;
 import model.cell.implementation.DefaultCell;
 import model.cell.interfaces.Cell;
 import model.fish.implementation.*;
+import model.fish.implementation.FishType;
 import model.fish.interfaces.*;
 import model.grid.implementation.DefaultCellGrid;
 import model.grid.interfaces.CellGrid;

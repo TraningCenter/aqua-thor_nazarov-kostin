@@ -26,7 +26,7 @@ public class SaxTests {
     }
 
 
-    @Test
+   // @Test
     public void canRead() throws UnsupportedEncodingException {
         //Array
 
@@ -41,7 +41,7 @@ public class SaxTests {
         Assert.assertEquals(initOceanParameters, OceanParameters);
     }
 
-    @Test
+ //   @Test
     public void canReadBigData() throws UnsupportedEncodingException {
         //Array
         ByteArrayInputStream inputStream = new ByteArrayInputStream(initBigXmlString.getBytes(StandardCharsets.UTF_8.name()));
@@ -55,7 +55,7 @@ public class SaxTests {
         Assert.assertEquals(initOceanParameters, OceanParameters);
     }
 
-    @Test
+  //  @Test
     public void canWrite() throws UnsupportedEncodingException {
 
         //Array

@@ -45,7 +45,7 @@ public class SaxOceanParamsWriter implements OceanParamsWriter {
         transHandler.startElement("", "", "oceanParameters", null);
         writeOceanType();
         writeOceanSize();
-        writeFlow();
+        writeFlows();
         writePasCount();
         writeAgrCount();
         writePasParam();
@@ -81,37 +81,81 @@ public class SaxOceanParamsWriter implements OceanParamsWriter {
         transHandler.endElement("", "", "y");
     }
 
-    private void writeFlow() throws SAXException {
+    private void writeFlows() throws SAXException {
+        transHandler.startElement("", "", "flows", null);
+        for (int i=0;i<oceanParameters.getFlows().size();i++){
+         writeFlow(i);
+        }
+        transHandler.endElement("", "", "flows");
+    }
+    private void writeFlow(int number) throws SAXException {
         transHandler.startElement("", "", "flow", null);
-        writeDirection();
-        writeStrength();
+        writeDirection(number);
+        writeRectangle(number);
+        writeStrength(number);
         transHandler.endElement("", "", "flow");
     }
 
-    private void writeDirection() throws SAXException {
+    private void writeRectangle(int number) throws SAXException{
+        transHandler.startElement("","","rectangle",null);
+        writeRecX(number);
+        writeRecY(number);
+        writeRecWidth(number);
+        writeRecHeight(number);
+        transHandler.endElement("","","rectangle");
+    }
+
+    private void writeRecX(int number) throws SAXException{
+        transHandler.startElement("","","x",null);
+        char[] temp=oceanParameters.getFlows().get(number).getRectangle().getX().toString().toCharArray();
+        transHandler.characters(temp,0,temp.length);
+        transHandler.endElement("","","x");
+    }
+
+    private void writeRecY(int number) throws SAXException{
+        transHandler.startElement("","","y",null);
+        char[] temp=oceanParameters.getFlows().get(number).getRectangle().getY().toString().toCharArray();
+        transHandler.characters(temp,0,temp.length);
+        transHandler.endElement("","","y");
+    }
+
+    private void writeRecWidth(int number) throws SAXException{
+        transHandler.startElement("","","width",null);
+        char[] temp=oceanParameters.getFlows().get(number).getRectangle().getWidth().toString().toCharArray();
+        transHandler.characters(temp,0,temp.length);
+        transHandler.endElement("","","width");
+    }
+    private void writeRecHeight(int number) throws SAXException{
+        transHandler.startElement("","","height",null);
+        char[] temp=oceanParameters.getFlows().get(number).getRectangle().getHeight().toString().toCharArray();
+        transHandler.characters(temp,0,temp.length);
+        transHandler.endElement("","","height");
+    }
+
+    private void writeDirection(int number) throws SAXException {
         transHandler.startElement("", "", "direction", null);
-        writeDirectionX();
-        writeDirectionY();
+        writeDirectionX(number);
+        writeDirectionY(number);
         transHandler.endElement("", "", "direction");
     }
 
-    private void writeDirectionX() throws SAXException {
+    private void writeDirectionX(int number) throws SAXException {
         transHandler.startElement("", "", "x", null);
-        char[] temp = oceanParameters.getFlow().getDirection().getX().toString().toCharArray();
+        char[] temp = oceanParameters.getFlows().get(number).getDirection().getX().toString().toCharArray();
         transHandler.characters(temp, 0, temp.length);
         transHandler.endElement("", "", "x");
     }
 
-    private void writeDirectionY() throws SAXException {
+    private void writeDirectionY(int number) throws SAXException {
         transHandler.startElement("", "", "y", null);
-        char[] temp = oceanParameters.getFlow().getDirection().getY().toString().toCharArray();
+        char[] temp = oceanParameters.getFlows().get(number).getDirection().getY().toString().toCharArray();
         transHandler.characters(temp, 0, temp.length);
         transHandler.endElement("", "", "y");
     }
 
-    private void writeStrength() throws SAXException {
+    private void writeStrength(int number) throws SAXException {
         transHandler.startElement("", "", "strength", null);
-        char[] temp = oceanParameters.getFlow().getStrength().toString().toCharArray();
+        char[] temp = oceanParameters.getFlows().get(number).getStrength().toString().toCharArray();
         transHandler.characters(temp, 0, temp.length);
         transHandler.endElement("", "", "strength");
     }
@@ -136,6 +180,7 @@ public class SaxOceanParamsWriter implements OceanParamsWriter {
         writeReproductionPeriod(true);
         writeSmellSenseDistance(true);
         writeStarvationTime(true);
+        writeTimeToMoveThroughOneCell(true);
         transHandler.endElement("", "", "passiveFishParameters");
     }
 
@@ -145,6 +190,7 @@ public class SaxOceanParamsWriter implements OceanParamsWriter {
         writeReproductionPeriod(false);
         writeSmellSenseDistance(false);
         writeStarvationTime(false);
+        writeTimeToMoveThroughOneCell(false);
         transHandler.endElement("", "", "aggressiveFishParameters");
     }
 
@@ -194,5 +240,17 @@ public class SaxOceanParamsWriter implements OceanParamsWriter {
         transHandler.startElement("", "", "starvationTimeTicks", null);
         transHandler.characters(temp, 0, temp.length);
         transHandler.endElement("", "", "starvationTimeTicks");
+    }
+
+    private void writeTimeToMoveThroughOneCell(boolean isPassive)throws SAXException{
+        char[] temp;
+        if (isPassive) {
+            temp = oceanParameters.getPassiveFishParameters().getTimeToMoveThroughOneCell().toString().toCharArray();
+        }else{
+            temp=oceanParameters.getAggressiveFishParameters().getTimeToMoveThroughOneCell().toString().toCharArray();
+        }
+        transHandler.startElement("","","timeToMoveThroughOneCell",null);
+        transHandler.characters(temp,0,temp.length);
+        transHandler.endElement("","","timeToMoveThroughOneCell");
     }
 }
