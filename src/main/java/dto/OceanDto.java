@@ -73,4 +73,16 @@ public class OceanDto {
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
+
+    public Integer getSharkCount() {
+        return null;
+    }
+
+    public Integer getStepCount() {
+        return null;
+    }
+
+    public Integer getFishCount() {
+        return null;
+    }
 }

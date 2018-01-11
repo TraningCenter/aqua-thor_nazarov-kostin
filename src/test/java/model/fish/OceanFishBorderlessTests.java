@@ -133,8 +133,6 @@ public class OceanFishBorderlessTests {
         }
     }
 
-    //TODO: fish cell binding
-
     private int getNearestPathMovesCount(Vector from, Vector to) {
         return Math.min(Math.abs(to.getX()-from.getX()), size - Math.abs(to.getX()-from.getX())) +
                 Math.min(Math.abs(to.getY()-from.getY()), size - Math.abs(to.getY()-from.getY()));

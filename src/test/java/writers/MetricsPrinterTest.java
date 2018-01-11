@@ -36,9 +36,11 @@ public class MetricsPrinterTest {
         oceanDto = new OceanDto() {
             {
                 setOceanType(OceanType.BORDERED);
+                //TODO: cant find methods
+                /*
                 setStepCount(5);
                 setFishCount(10);
-                setSharkCount(7);
+                setSharkCount(7);*/
             }
         };
     }

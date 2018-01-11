@@ -53,6 +53,4 @@ public class BorderedFishFactory implements FishFactory {
         return fish;
     }
 
-
-    //TODO: aggressive fish
 }
