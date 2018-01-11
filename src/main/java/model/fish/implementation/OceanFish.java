@@ -7,6 +7,7 @@ import model.fish.interfaces.target.TargetCellPredicate;
 import model.fish.interfaces.target.TargetPriorityCalcFunction;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
+import model.parameters.FishState;
 import model.parameters.Vector;
 
 public class OceanFish implements Fish {
@@ -55,6 +56,11 @@ public class OceanFish implements Fish {
     @Override
     public FishType getType() {
         return fishType;
+    }
+
+    @Override
+    public FishState getState() {
+        return this.oceanFishState.getState();
     }
 
     @Override
@@ -122,7 +128,7 @@ public class OceanFish implements Fish {
     }
 
     public Integer getTimeToMoveToPosition(Vector target){
-        return getCurrentTimeToMove() + oceanSpace.getFlowStrength(currentPosition, currentPosition.minus(target));
+        return getCurrentTimeToMove() + oceanSpace.getFlowStrength(currentPosition, target.minus(currentPosition));
     }
 
     /*
@@ -132,12 +138,14 @@ public class OceanFish implements Fish {
     0 -1 Down
      */
     public void move(Vector direction){
+
         Vector newPosition = oceanSpace.getNewPosition(this.currentPosition, direction);
 
         this.oceanSpace.getCell(currentPosition).removeFish(this);
         this.oceanSpace.getCell(newPosition).add(this);
 
         currentPosition=newPosition;
+
     }
 
     public FishParameters getLifeParameters(){
@@ -166,6 +174,6 @@ public class OceanFish implements Fish {
     }
 
     public OceanFishState getOceanFishState() {
-        return oceanFishState;
+        return this.oceanFishState;
     }
 }

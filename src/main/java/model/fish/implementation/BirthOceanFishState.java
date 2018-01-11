@@ -1,17 +1,23 @@
 package model.fish.implementation;
 
 import model.fish.interfaces.OceanFishState;
+import model.parameters.FishState;
 
 public class BirthOceanFishState implements OceanFishState {
 
     private OceanFish oceanFish;
-    private Integer tickToBecomeAdult;
-    private Integer tickCount;
+    private int tickToBecomeAdult;
+    private int tickCount;
 
     public BirthOceanFishState(OceanFish oceanFish) {
 
         this.oceanFish = oceanFish;
-        this.tickToBecomeAdult = oceanFish.getLifeParameters().getLifeTimeTicks();
+        this.tickToBecomeAdult = oceanFish.getLifeParameters().getTimeToBecomeAdultTicks();
+    }
+
+    @Override
+    public FishState getState() {
+        return FishState.BIRTH;
     }
 
     @Override

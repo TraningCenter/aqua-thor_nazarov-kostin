@@ -6,8 +6,6 @@ import model.parameters.OceanParameters;
 
 public class OceanTranslator {
 
-
-
     private FishTranslator fishTranslator;
 
     public OceanDto translateToDto(OceanDto oceanDto,Ocean ocean){

@@ -7,8 +7,17 @@ import model.parameters.Vector;
 public class FishDto {
 
     private FishType fishType;
-    private Vector coord;
+    private Vector position;
     private FishState fishState;
+
+    public FishDto(FishType fishType, Vector position, FishState fishState) {
+        this.fishType = fishType;
+        this.position = position;
+        this.fishState = fishState;
+    }
+
+    public FishDto() {
+    }
 
     public FishType getFishType() {
         return fishType;
@@ -18,12 +27,12 @@ public class FishDto {
         this.fishType = fishType;
     }
 
-    public Vector getCoord() {
-        return coord;
+    public Vector getPosition() {
+        return position;
     }
 
-    public void setCoord(Vector coord) {
-        this.coord = coord;
+    public void setPosition(Vector position) {
+        this.position = position;
     }
 
     public FishState getFishState() {

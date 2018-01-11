@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /***
  * Strategy for calculation escape target if aggressive fish in range else random target
@@ -47,7 +46,8 @@ public class EscapeTargetCalculationFishStrategy implements TargetCalculationFis
 
 
         if (listOfRelativeCells.size()>0){
-            RelativeCell cell = getRandomCellFromList(listOfRelativeCells);
+
+            RelativeCell cell = getCellToGo(listOfRelativeCells, oceanSpace, currentPosition);
 
             return new Target(cell.getPosition(),
                     targetPriorityCalcFunction.calcTargetPriority(cell));
@@ -57,6 +57,21 @@ public class EscapeTargetCalculationFishStrategy implements TargetCalculationFis
         return null;
     }
 
+    private RelativeCell getCellToGo(List<RelativeCell> listOfRelativeCells, OceanSpace oceanSpace, Vector currentPosition){
+
+        Vector flowDirection = oceanSpace.getFlowDirection(currentPosition);
+
+        if (flowDirection!=Vector.Zero() && Math.random()>0.5){
+            Optional<RelativeCell> cellOptional = listOfRelativeCells.stream()
+                    .filter(relativeCell ->
+                            relativeCell.getRelativePosition().equals(flowDirection)).findFirst();
+
+            if (cellOptional.isPresent())
+                return cellOptional.get();
+        }
+
+        return getRandomCellFromList(listOfRelativeCells);
+    }
 
     private RelativeCell getRandomCellFromList(List<RelativeCell> list) {
         return list.get(new Random().nextInt(list.size()));

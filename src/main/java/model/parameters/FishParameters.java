@@ -52,6 +52,10 @@ public class FishParameters {
         return lifeTimeTicks;
     }
 
+    public Integer getTimeToBecomeAdultTicks(){
+        return lifeTimeTicks/100;
+    }
+
     public void setLifeTimeTicks(Integer lifeTimeTicks) {
         this.lifeTimeTicks = lifeTimeTicks;
     }

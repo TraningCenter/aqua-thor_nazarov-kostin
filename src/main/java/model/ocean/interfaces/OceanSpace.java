@@ -16,4 +16,5 @@ public interface OceanSpace {
     Cell getCell(Vector position);
     Vector getOceanSize();
     Vector getNewPosition(Vector position, Vector direction);
+    Vector getFlowDirection(Vector position);
 }

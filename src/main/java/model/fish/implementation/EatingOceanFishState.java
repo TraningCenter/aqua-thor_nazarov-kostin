@@ -1,6 +1,7 @@
 package model.fish.implementation;
 
 import model.fish.interfaces.OceanFishState;
+import model.parameters.FishState;
 
 public class EatingOceanFishState implements OceanFishState {
 
@@ -10,6 +11,11 @@ public class EatingOceanFishState implements OceanFishState {
 
     public EatingOceanFishState(OceanFish oceanFish) {
         this.oceanFish = oceanFish;
+    }
+
+    @Override
+    public FishState getState() {
+        return FishState.EATING;
     }
 
     @Override

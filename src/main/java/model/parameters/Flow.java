@@ -6,7 +6,6 @@ public class Flow {
     private Vector direction;
     private Integer strength;
 
-
     public Flow(){}
 
     public Flow(Vector direction, Integer strength, Rectangle rectangle) {

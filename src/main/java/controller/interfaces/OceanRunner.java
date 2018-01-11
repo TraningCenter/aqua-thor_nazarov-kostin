@@ -1,6 +1,6 @@
 package controller.interfaces;
 
 public interface OceanRunner {
-
-    public void start();
+    void start();
+    void stop();
 }

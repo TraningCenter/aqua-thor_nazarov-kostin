@@ -11,8 +11,6 @@ import model.fish.interfaces.target.TargetPriorityCalcFunction;
 public class AggressiveTargetPriorityCalcFunction implements TargetPriorityCalcFunction {
     @Override
     public TargetPriority calcTargetPriority(RelativeCell relativeCell) {
-        if (relativeCell.getFishes().stream().anyMatch(fish -> fish.getType()== FishType.PASSIVE))
-            return TargetPriority.HIGH;
         return TargetPriority.LOW;
     }
 }

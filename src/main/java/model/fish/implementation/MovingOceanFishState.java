@@ -3,6 +3,7 @@ package model.fish.implementation;
 import model.fish.implementation.target.Target;
 import model.fish.implementation.target.TargetPriority;
 import model.fish.interfaces.OceanFishState;
+import model.parameters.FishState;
 import model.parameters.Vector;
 
 public class MovingOceanFishState implements OceanFishState{
@@ -14,6 +15,11 @@ public class MovingOceanFishState implements OceanFishState{
 
     public MovingOceanFishState(OceanFish oceanFish) {
         this.oceanFish = oceanFish;
+    }
+
+    @Override
+    public FishState getState() {
+        return FishState.MOVING;
     }
 
     @Override

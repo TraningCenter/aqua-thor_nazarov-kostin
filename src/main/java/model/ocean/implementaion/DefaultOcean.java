@@ -39,15 +39,22 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public void update() {
-        for (Fish fish : this.fishes) {
-            fish.action();
+        for (int i=0; i<fishes.size();i++){
+            fishes.get(i).action();
         }
 
         removeDeadFishes();
     }
 
     private void removeDeadFishes() {
+        if (this.deadFishes.size()==0)
+            return;
+
+        this.deadFishes.forEach(fish -> this.grid.getCell(fish.getCurrentPosition()).removeFish(fish));
+
         fishes.removeAll(this.deadFishes);
+
+        this.deadFishes.clear();
     }
 
     @Override
@@ -75,10 +82,11 @@ public class DefaultOcean implements Ocean, OceanSpace {
             yVelocity[0] +=(flow.getDirection().getY()>0?1:flow.getDirection().getY()==0?0:-1)*flow.getStrength();
         });
 
-        if (direction.getX()!=0)
+        if (direction.getX()!=0 && xVelocity[0]!=0)
             return xVelocity[0];
-        else
+        else if (direction.getY()!=0 && yVelocity[0]!=0)
             return yVelocity[0];
+        return 0;
     }
 
     @Override
@@ -92,7 +100,7 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public void removeFish(Fish fish) {
-        this.grid.getCell(fish.getCurrentPosition()).removeFish(fish);
+       // this.grid.getCell(fish.getCurrentPosition()).removeFish(fish);
         this.deadFishes.add(fish);
     }
 
@@ -111,6 +119,15 @@ public class DefaultOcean implements Ocean, OceanSpace {
     @Override
     public Vector getNewPosition(Vector position, Vector direction) {
         return this.cellsBehavior.getNewPosition(this.grid,position,direction);
+    }
+
+    @Override
+    public Vector getFlowDirection(Vector position) {
+        for (int i = 0; i < flows.size(); i++) {
+            if (flows.get(i).getRectangle().isInside(position))
+                return flows.get(i).getDirection();
+        }
+        return Vector.Zero();
     }
 
     public List<Flow> getFlows() {

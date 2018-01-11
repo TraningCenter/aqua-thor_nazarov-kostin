@@ -45,4 +45,9 @@ public class OceanSpaceMock implements OceanSpace {
     public Vector getNewPosition(Vector position, Vector direction) {
         return null;
     }
+
+    @Override
+    public Vector getFlowDirection(Vector position) {
+        return null;
+    }
 }
