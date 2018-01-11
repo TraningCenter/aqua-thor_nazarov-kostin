@@ -1,42 +1,37 @@
 package dto;
 
 
+import model.fish.interfaces.Fish;
+import model.parameters.Flow;
 import model.parameters.OceanType;
+import model.parameters.Vector;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
-@XmlRootElement(name = "oceanMetrics")
-@XmlType(propOrder = {"oceanType", "stepCount", "fishCount","sharkCount"})
+//@XmlRootElement(name = "oceanMetrics")
+//@XmlType(propOrder = {"oceanType", "stepCount", "fishCount","sharkCount"})
 public class OceanDto {
 
-    private int fishCount;
-    private int sharkCount;
-    private int stepCount;
+    public OceanDto() {
+        steps= new ArrayList<>();
+    }
+
     private OceanType oceanType;
 
-    public int getFishCount() {
-        return fishCount;
-    }
+    private Vector oceanSize;
 
-    public void setFishCount(int fishCount) {
-        this.fishCount = fishCount;
-    }
+    private List<Flow> flows;
 
-    public int getSharkCount() {
-        return sharkCount;
-    }
+    private List<FishDto> fishes;
 
-    public void setSharkCount(int sharkCount) {
-        this.sharkCount = sharkCount;
-    }
+    private List<Step> steps;
 
-    public int getStepCount() {
-        return stepCount;
-    }
+    public void addStep(){
 
-    public void setStepCount(int stepCount) {
-        this.stepCount = stepCount;
+        steps.add(new Step(steps.size()+1,fishes));
     }
 
     public OceanType getOceanType() {
@@ -47,26 +42,35 @@ public class OceanDto {
         this.oceanType = oceanType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OceanDto that = (OceanDto) o;
-
-
-        if (oceanType != that.oceanType) return false;
-        if (fishCount != that.fishCount) return false;
-        if (sharkCount != that.sharkCount) return false;
-        return stepCount==that.stepCount;
+    public Vector getOceanSize() {
+        return oceanSize;
     }
 
-    @Override
-    public int hashCode() {
-        int result = oceanType.hashCode();
-        result = 31 * result + stepCount;
-        result = 31 * result + fishCount;
-        result = 31 * result + sharkCount;
-        return result;
+    public void setOceanSize(Vector oceanSize) {
+        this.oceanSize = oceanSize;
+    }
+
+    public List<Flow> getFlows() {
+        return flows;
+    }
+
+    public void setFlows(List<Flow> flows) {
+        this.flows = flows;
+    }
+
+    public List<FishDto> getFishes() {
+        return fishes;
+    }
+
+    public void setFishes(List<FishDto> fishes) {
+        this.fishes = fishes;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 }

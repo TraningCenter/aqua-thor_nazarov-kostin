@@ -8,4 +8,5 @@ public interface Fish {
     Vector getCurrentPosition();
     void setCurrentPosition(Vector position);
     void action();
+
 }

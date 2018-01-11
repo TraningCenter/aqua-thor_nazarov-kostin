@@ -5,6 +5,7 @@ import model.parameters.FishState;
 import model.parameters.Vector;
 
 public class FishDto {
+
     private FishType fishType;
     private Vector coord;
     private FishState fishState;

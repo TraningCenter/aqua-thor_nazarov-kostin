@@ -160,4 +160,12 @@ public class OceanFish implements Fish {
     public void eatIfNeed(){
         this.eatingOceanFishStrategy.eatIfNeed(this,oceanSpace);
     }
+
+    public MoveToTargetStrategy getMoveToTargetStrategy() {
+        return moveToTargetStrategy;
+    }
+
+    public OceanFishState getOceanFishState() {
+        return oceanFishState;
+    }
 }

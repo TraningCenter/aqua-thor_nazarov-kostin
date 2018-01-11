@@ -112,4 +112,12 @@ public class DefaultOcean implements Ocean, OceanSpace {
     public Vector getNewPosition(Vector position, Vector direction) {
         return this.cellsBehavior.getNewPosition(this.grid,position,direction);
     }
+
+    public List<Flow> getFlows() {
+        return flows;
+    }
+
+    public CellsBehavior getCellsBehavior() {
+        return cellsBehavior;
+    }
 }

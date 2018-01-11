@@ -7,7 +7,7 @@ import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
 import model.parameters.Vector;
 
-public class BorderedFishFactory implements FishFactory {
+public class BorderlessFishFactory implements FishFactory {
 
     @Override
     public Fish createFish(FishType fishType, FishParameters fishParameters, Vector startPosition, OceanSpace oceanSpace) {
@@ -29,7 +29,7 @@ public class BorderedFishFactory implements FishFactory {
                 new DoingNothingOceanFishState(),
                 new EscapeTargetCalculationFishStrategy(),
                 new DefaultReproductionBehavior(() -> createPassiveFish(Vector.Zero(), fishParameters, oceanSpace)),
-                new BorderedMoveToTargetStrategy(),
+                new BorderlessMoveToTargetStrategy(),
                 new PassiveTargetCellPredicate(),
                 relativeCell -> TargetPriority.HIGH,
                 new PassiveEatingOceanFishStrategy());
@@ -45,7 +45,7 @@ public class BorderedFishFactory implements FishFactory {
                 new DoingNothingOceanFishState(),
                 new HuntingTargetCalculationFishStrategy(),
                 new DefaultReproductionBehavior(() -> createAggressiveFish(Vector.Zero(), fishParameters, oceanSpace)),
-                new BorderedMoveToTargetStrategy(),
+                new BorderlessMoveToTargetStrategy(),
                 new AggressiveTargetCellPredicate(),
                 relativeCell -> TargetPriority.HIGH,
                 new AggressiveEatingOceanFishStrategy());
@@ -53,6 +53,4 @@ public class BorderedFishFactory implements FishFactory {
         return fish;
     }
 
-
-    //TODO: aggressive fish
 }
