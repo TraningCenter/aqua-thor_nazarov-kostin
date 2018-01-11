@@ -16,10 +16,10 @@ public class DefaultCellGrid implements CellGrid {
     }
 
     private void setSize(Cell[][] cells) {
-        Integer height = cells.length;
-        if (height<1)
+        Integer width = cells.length;
+        if (width<1)
             throw new UnsupportedOperationException();
-        Integer width = cells[0].length;
+        Integer height = cells[0].length;
         size = new Vector(width, height);
     }
 

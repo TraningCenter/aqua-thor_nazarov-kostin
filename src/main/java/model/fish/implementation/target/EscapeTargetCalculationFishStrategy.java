@@ -60,8 +60,8 @@ public class EscapeTargetCalculationFishStrategy implements TargetCalculationFis
     private RelativeCell getCellToGo(List<RelativeCell> listOfRelativeCells, OceanSpace oceanSpace, Vector currentPosition){
 
         Vector flowDirection = oceanSpace.getFlowDirection(currentPosition);
-
-        if (flowDirection!=Vector.Zero() && Math.random()>0.5){
+//Math.random()>0.5
+        if (flowDirection!=Vector.Zero() && true){
             Optional<RelativeCell> cellOptional = listOfRelativeCells.stream()
                     .filter(relativeCell ->
                             relativeCell.getRelativePosition().equals(flowDirection)).findFirst();

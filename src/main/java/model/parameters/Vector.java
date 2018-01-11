@@ -73,4 +73,12 @@ public class Vector {
     public static Vector Zero(){
         return new Vector(0,0);
     }
+
+    public boolean equalsDimension(Vector other){
+        return (this.getX()!=0&&other.getX()!=0) || (this.getY()!=0&&other.getY()!=0);
+    }
+
+    public boolean isSameDimensionDirection(Vector other){
+        return (this.getX()*other.getX()>0)||(this.getY()*other.getY()>0);
+    }
 }

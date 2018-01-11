@@ -17,21 +17,13 @@ import static org.mockito.Mockito.mock;
 public class DefaultOceanTests {
 
     @Test
-    public void canGetFlowStrength(){
+    public void canCalculateFlowStrength(){
         //Array
-        Vector baseDirection = new Vector(10,0);
+        Vector baseDirection = new Vector(0,1);
         Vector basePosition = new Vector(5,5);
 
         List<Flow> flows = new LinkedList<>();
-        // -> 5
-        flows.add(new Flow(new Vector(1,0), 5, new Rectangle(0,0,10,10))); //5,0
-        // <- 5
-        flows.add(new Flow(new Vector(-1,0), 3, new Rectangle(0,0,10,10)));//2,0
-        // | 5
-        // v 2
-        flows.add(new Flow(new Vector(0,-1), 2, new Rectangle(0,0,10,10)));//2,-2
-        // outside
-        flows.add(new Flow(new Vector(-1,0), 10, new Rectangle(10,10,10,10)));
+        flows.add(new Flow(new Vector(0,1), 5, new Rectangle(0,0,10,10)));
 
         DefaultOcean defaultOcean = new DefaultOcean(mock(CellsBehavior.class), flows, mock(CellGrid.class));
 
@@ -39,8 +31,10 @@ public class DefaultOceanTests {
         Integer strength = defaultOcean.getFlowStrength(basePosition, baseDirection);
 
         //Assert
-        Assert.assertEquals(Integer.valueOf(2), strength);
+        Assert.assertEquals(Integer.valueOf(5), strength);
     }
+
+
 
 
 }

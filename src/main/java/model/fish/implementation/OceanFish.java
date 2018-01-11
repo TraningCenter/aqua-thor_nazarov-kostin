@@ -30,6 +30,7 @@ public class OceanFish implements Fish {
     private int noBirthTimeTicks = 0;
     private int starvationTimeTicks = 0;
     private int ageTimeTicks = 0;
+    private int restedTimeTicks = 0;
 
     public OceanFish(FishType fishType, FishParameters fishParameters,
                      Vector startPosition,
@@ -102,6 +103,7 @@ public class OceanFish implements Fish {
         noBirthTimeTicks++;
         starvationTimeTicks++;
         ageTimeTicks++;
+        restedTimeTicks++;
     }
 
     private boolean canGiveBirth(){
@@ -122,13 +124,9 @@ public class OceanFish implements Fish {
         moveToTargetStrategy.moveToTarget(this, oceanSpace, target);
     }
 
-    private Integer getCurrentTimeToMove(){
+    private Integer getCurrentTimeToMove(Vector direction){
 
-        return lifeParameters.getTimeToMoveThroughOneCell();
-    }
-
-    public Integer getTimeToMoveToPosition(Vector target){
-        return getCurrentTimeToMove() + oceanSpace.getFlowStrength(currentPosition, target.minus(currentPosition));
+        return lifeParameters.getTimeToMoveThroughOneCell() - oceanSpace.getFlowStrength(currentPosition, direction);
     }
 
     /*
@@ -139,6 +137,9 @@ public class OceanFish implements Fish {
      */
     public void move(Vector direction){
 
+        if (!isRestedToMove(direction))
+            return;
+
         Vector newPosition = oceanSpace.getNewPosition(this.currentPosition, direction);
 
         this.oceanSpace.getCell(currentPosition).removeFish(this);
@@ -146,6 +147,11 @@ public class OceanFish implements Fish {
 
         currentPosition=newPosition;
 
+        restedTimeTicks=0;
+    }
+
+    private boolean isRestedToMove(Vector direction) {
+        return restedTimeTicks >= getCurrentTimeToMove(direction);
     }
 
     public FishParameters getLifeParameters(){

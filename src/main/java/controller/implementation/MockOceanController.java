@@ -35,15 +35,14 @@ public class MockOceanController implements OceanController {
     private final OceanVisualizer oceanVisualizer;
 
     public MockOceanController() throws IOException {
-        Vector oceanSize = new Vector(20,20);
+        Vector oceanSize = new Vector(50,20);
 
         List<Flow> flows = new LinkedList<>();
-        flows.add(new Flow(new Vector(1,0), 3, new Rectangle(4,4,8,4)));
-        flows.add(new Flow(new Vector(0,1), 3, new Rectangle(12,4,4,8)));
-        flows.add(new Flow(new Vector(-1,0), 3, new Rectangle(8,12,8,4)));
-        flows.add(new Flow(new Vector(0,-1), 3, new Rectangle(4,8,4,8)));
+        flows.add(new Flow(new Vector(-1,0), 4, new Rectangle(4,4,12,12)));
+
+
         OceanParameters parameters = new OceanParameters(oceanSize,flows,5,1, OceanType.BORDERLESS);
-        parameters.setAggressiveFishParameters(new FishParameters(1200,2000, 1000, 20, 3));
+        parameters.setAggressiveFishParameters(new FishParameters(1200,2000, 1000, 2, 3));
         parameters.setPassiveFishParameters(new FishParameters(720,1500, 1000, 2, 5));
 
         CellsBehavior cellsBehavior = new BorderlessCellBehavior();

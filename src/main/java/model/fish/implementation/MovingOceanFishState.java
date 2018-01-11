@@ -30,41 +30,19 @@ public class MovingOceanFishState implements OceanFishState{
         moveToTarget();
     }
 
-    public void setCurrentTarget(Target currentTarget) {
-        this.currentTarget = currentTarget;
-    }
-
     private void calculateTargetIfNeed() {
         if (currentTarget == null || isReachedTarget() || currentTarget.getPriority()== TargetPriority.LOW)
             currentTarget = oceanFish.calculateTargetPosition();
     }
 
     private void moveToTarget() {
-        if (isRestedToMove(currentTarget.getPosition()))
-        {
             this.oceanFish.moveToTarget(currentTarget);
-            resetRestTime();
-        }
-        else
-            rest();
-    }
-
-    private void rest() {
-        restTimeTicks++;
-    }
-
-    private boolean isRestedToMove(Vector position) {
-
-        return restTimeTicks>=oceanFish.getTimeToMoveToPosition(position);
     }
 
     private boolean isReachedTarget(){
         return currentTarget.getPosition().equals(oceanFish.getCurrentPosition());
     }
 
-    private void resetRestTime() {
-        this.restTimeTicks = 0;
-    }
 
     public Target getCurrentTarget() {
         return currentTarget;

@@ -74,19 +74,12 @@ public class DefaultOcean implements Ocean, OceanSpace {
 
     @Override
     public Integer getFlowStrength(Vector position, Vector direction) {
-        final Integer[] xVelocity = {0};
-        final Integer[] yVelocity = {0};
 
-        flows.stream().filter(flow -> flow.getRectangle().isInside(position)).forEach(flow -> {
-            xVelocity[0] +=(flow.getDirection().getX()>0?1:flow.getDirection().getX()==0?0:-1)*flow.getStrength();
-            yVelocity[0] +=(flow.getDirection().getY()>0?1:flow.getDirection().getY()==0?0:-1)*flow.getStrength();
-        });
-
-        if (direction.getX()!=0 && xVelocity[0]!=0)
-            return xVelocity[0];
-        else if (direction.getY()!=0 && yVelocity[0]!=0)
-            return yVelocity[0];
-        return 0;
+        return flows.stream()
+                .filter(flow -> flow.getDirection().equalsDimension(direction))
+                .map(flow -> ((flow.getDirection().isSameDimensionDirection(direction)?1:-1) * flow.getStrength()))
+                .findFirst()
+                .orElse(0);
     }
 
     @Override
