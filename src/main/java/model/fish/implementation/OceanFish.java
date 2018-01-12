@@ -150,7 +150,7 @@ public class OceanFish implements Fish {
 
         currentPosition=newPosition;
 
-        restedTimeTicks=0;
+        restedTimeTicks=-1;
     }
 
     private boolean isRestedToMove(Vector direction) {
@@ -184,5 +184,9 @@ public class OceanFish implements Fish {
 
     public OceanFishState getOceanFishState() {
         return this.oceanFishState;
+    }
+
+    public Integer getCurrentRestedTimeTicks() {
+        return restedTimeTicks;
     }
 }

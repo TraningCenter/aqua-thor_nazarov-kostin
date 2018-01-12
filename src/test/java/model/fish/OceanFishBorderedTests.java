@@ -48,7 +48,7 @@ public class OceanFishBorderedTests {
     @Before
     public void init(){
         fishType = FishType.PASSIVE;
-        fishParameters = new FishParameters(20000,20000,20000,2,3);
+        fishParameters = new FishParameters(20000,20000,20000,2,2);
         startPosition = new Vector(1,1);
        // flows = new LinkedList<Flow>(){{add(new Flow(Directions.RIGHT,1,new Rectangle(0,0,10,10)));}};
         flows = new LinkedList<>();
@@ -100,6 +100,11 @@ public class OceanFishBorderedTests {
 
         BorderedMoveToTargetStrategy borderedMoveToTargetStrategy = new BorderedMoveToTargetStrategy();
 
+        Target target = new Target(new Vector(2,2), TargetPriority.HIGH);
+        MovingOceanFishState movingOceanFishState = new MovingOceanFishState(fish);
+        movingOceanFishState.setCurrentTarget(target);
+        fish.changeState(movingOceanFishState);
+
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
@@ -108,12 +113,13 @@ public class OceanFishBorderedTests {
         CellGrid cellGrid = new DefaultCellGrid(cells);
         OceanSpace oceanSpace = new DefaultOcean(new BorderedCellBehavior(), new LinkedList<>(), cellGrid);
 
-        Target target = new Target(new Vector(2,2), TargetPriority.HIGH);
         //Act
-        borderedMoveToTargetStrategy.moveToTarget(fish, oceanSpace, target);
-        borderedMoveToTargetStrategy.moveToTarget(fish, oceanSpace, target);
-        borderedMoveToTargetStrategy.moveToTarget(fish, oceanSpace, target);
-        borderedMoveToTargetStrategy.moveToTarget(fish, oceanSpace, target);
+        fish.action();
+        fish.action();
+        fish.action();
+        fish.action();
+        fish.action();
+        fish.action();
 
         //Assert
         Assert.assertEquals(target.getPosition().getX(), fish.getCurrentPosition().getX());
@@ -131,6 +137,7 @@ public class OceanFishBorderedTests {
         Target lastTarget =movingOceanFishState.getCurrentTarget();
         Vector lastPosition = fish.getCurrentPosition();
         int currentRestTimeTicks = 0;
+        int tickNum=0;
 
         Assert.assertNull(lastTarget);
         for (int i =0;i<30;i++) {

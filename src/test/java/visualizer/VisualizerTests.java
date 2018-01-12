@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 
 public class VisualizerTests {
 
-    @Test
     public void canVisualizeOceanDto() throws IOException {
         //Array
         Vector oceanSize = new Vector(20,20);

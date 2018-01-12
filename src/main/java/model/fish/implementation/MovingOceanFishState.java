@@ -15,8 +15,6 @@ public class MovingOceanFishState implements OceanFishState{
     private OceanFish oceanFish;
     private Target currentTarget;
 
-    private int restTimeTicks = 0;
-
     public MovingOceanFishState(OceanFish oceanFish) {
         this.oceanFish = oceanFish;
     }
@@ -40,7 +38,7 @@ public class MovingOceanFishState implements OceanFishState{
     }
 
     private void moveToTarget() {
-            this.oceanFish.moveToTarget(currentTarget);
+        this.oceanFish.moveToTarget(currentTarget);
     }
 
     private boolean isReachedTarget(){
@@ -51,8 +49,7 @@ public class MovingOceanFishState implements OceanFishState{
         return currentTarget;
     }
 
-    public int getRestTimeTicks() {
-        return restTimeTicks;
+    public void setCurrentTarget(Target currentTarget) {
+        this.currentTarget = currentTarget;
     }
-
 }

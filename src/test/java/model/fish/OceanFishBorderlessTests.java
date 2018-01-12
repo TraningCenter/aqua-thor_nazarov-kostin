@@ -84,7 +84,7 @@ public class OceanFishBorderlessTests {
 
         System.out.println("current position : " + fish.getCurrentPosition());
         System.out.println("current target : null");
-        System.out.println("current rest : " + movingOceanFishState.getRestTimeTicks());
+        System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
         System.out.println("");
 
         //assert that count of moves = nearest path
@@ -99,13 +99,20 @@ public class OceanFishBorderlessTests {
             Assert.assertNotNull(movingOceanFishState.getCurrentTarget());
             currentRestTimeTicks++;
 
-            //Assert moving
-            if (currentRestTimeTicks - 1 >= fishParameters.getTimeToMoveThroughOneCell()) {
+            System.out.println("current position : " + fish.getCurrentPosition());
+            System.out.println("last position : " + lastPosition);
+            System.out.println("current target : " + movingOceanFishState.getCurrentTarget().getPosition());
+            System.out.println("last target : " + lastTarget);
+            System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
+            System.out.println("");
 
+            //Assert moving
+            if (currentRestTimeTicks - 1 >= fishParameters.getTimeToMoveThroughOneCell())
+            {/*
                 System.out.println("current position : " + fish.getCurrentPosition());
                 System.out.println("current target : " + movingOceanFishState.getCurrentTarget().getPosition());
-                System.out.println("current rest : " + movingOceanFishState.getRestTimeTicks());
-                System.out.println("");
+                System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
+                System.out.println("");*/
 
                 Assert.assertNotEquals(lastPosition, fish.getCurrentPosition());
                 countOfMoves++;
