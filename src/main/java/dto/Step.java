@@ -3,8 +3,11 @@ package dto;
 import model.fish.implementation.FishType;
 import model.parameters.OceanType;
 
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+
+@XmlType(propOrder = {"stepCount","fishCount","sharkCount"})
 public class Step {
 
 
@@ -13,6 +16,9 @@ public class Step {
     private int fishCount=0;
     private int sharkCount=0;
 
+
+    public Step() {
+    }
 
     public Step(int stepCount, List<FishDto> fishes) {
         this.stepCount = stepCount;

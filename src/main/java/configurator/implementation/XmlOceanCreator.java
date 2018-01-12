@@ -18,11 +18,9 @@ import model.parameters.OceanParameters;
 import model.parameters.OceanType;
 import model.parameters.Vector;
 import readers.implementation.XmlParametersReader;
-import readers.interfaces.ParametersReader;
+import parsers.ParametersReader;
 
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
 public class XmlOceanCreator implements OceanCreator {

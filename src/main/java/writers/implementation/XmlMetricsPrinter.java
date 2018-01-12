@@ -20,10 +20,9 @@ public class XmlMetricsPrinter implements MetricsPrinter {
 
         MetricsWriter metricsWriter;
 
-        try (FileOutputStream fos = new FileOutputStream(path,true)) {
-            FileInputStream fis = new FileInputStream(path);
+        try (FileOutputStream fos = new FileOutputStream(path)) {
             metricsWriter = parserChanger.changeMetricsWriter();
-            metricsWriter.write(oceanDto, fos,fis);
+            metricsWriter.write(oceanDto, fos);
 
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -2,7 +2,7 @@ package readers.implementation;
 
 import configurator.interfaces.ParserChanger;
 import model.parameters.OceanParameters;
-import readers.interfaces.ParametersReader;
+import parsers.ParametersReader;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -4,6 +4,9 @@ import model.fish.implementation.FishType;
 import model.parameters.FishState;
 import model.parameters.Vector;
 
+import javax.xml.bind.annotation.XmlType;
+
+
 public class FishDto {
 
     private FishType fishType;

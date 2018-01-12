@@ -1,4 +1,4 @@
-package readers.interfaces;
+package parsers;
 
 import configurator.interfaces.ParserChanger;
 import model.parameters.OceanParameters;

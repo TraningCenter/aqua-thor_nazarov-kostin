@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 public class JaxbMetricsWriter implements MetricsWriter {
     @Override
-    public void write(OceanDto oceanDto, OutputStream outputStream, InputStream inputStream) {
+    public void write(OceanDto oceanDto, OutputStream outputStream) {
         try {
             JAXBContext jc = JAXBContext.newInstance(OceanDto.class);
             Marshaller m = jc.createMarshaller();

@@ -7,13 +7,13 @@ import model.parameters.Flow;
 import model.parameters.OceanType;
 import model.parameters.Vector;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@XmlRootElement(name = "oceanMetrics")
-//@XmlType(propOrder = {"oceanType", "stepCount", "fishCount","sharkCount"})
+@XmlRootElement(name = "oceanMetrics")
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(propOrder = {"oceanType", "steps"})
 public class OceanDto {
 
     public OceanDto() {
@@ -39,6 +39,7 @@ public class OceanDto {
         return oceanType;
     }
 
+    @XmlElement
     public void setOceanType(OceanType oceanType) {
         this.oceanType = oceanType;
     }
@@ -67,6 +68,9 @@ public class OceanDto {
         this.fishes = fishes;
     }
 
+
+    @XmlElementWrapper(name = "steps")
+    @XmlElement(name = "step")
     public List<Step> getSteps() {
         return steps;
     }
