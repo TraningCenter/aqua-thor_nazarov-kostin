@@ -3,6 +3,9 @@ package model.fish.implementation;
 import model.fish.interfaces.OceanFishState;
 import model.parameters.FishState;
 
+/**
+ * Class for Ocean fish state, encapsulate behavior of birth, fish grows some time and then change state to MovingState
+ */
 public class BirthOceanFishState implements OceanFishState {
 
     private OceanFish oceanFish;

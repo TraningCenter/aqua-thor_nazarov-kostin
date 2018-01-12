@@ -1,6 +1,5 @@
 package model.fish.implementation;
 
-import model.cell.interfaces.Cell;
 import model.fish.interfaces.EatingOceanFishStrategy;
 import model.fish.interfaces.Fish;
 import model.ocean.interfaces.OceanSpace;
@@ -8,6 +7,9 @@ import model.ocean.interfaces.OceanSpace;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Eating behavior for aggressive ocean fish, this fish can eat passive fishes in current cell
+ */
 public class AggressiveEatingOceanFishStrategy implements EatingOceanFishStrategy {
 
     @Override

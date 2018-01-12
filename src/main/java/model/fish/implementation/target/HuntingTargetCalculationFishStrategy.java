@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/***
+/**
  * Strategy for calculation hunt target if passive fish in range or random target
  */
 public class HuntingTargetCalculationFishStrategy implements TargetCalculationFishStrategy {

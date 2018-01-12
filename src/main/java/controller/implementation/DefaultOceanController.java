@@ -15,6 +15,9 @@ import view.interfaces.OceanVisualizer;
 
 import java.io.IOException;
 
+/**
+ * class for controlling parts of ocean simulation, like parameter reader, runner, visualizer
+ */
 public class DefaultOceanController implements OceanController {
 
     private final OceanRunner oceanRunner;

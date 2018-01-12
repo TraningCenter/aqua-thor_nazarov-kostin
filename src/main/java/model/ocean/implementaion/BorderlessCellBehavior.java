@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+/**
+ * interface for cells behavior, manages cells in borderless space
+ */
 public class BorderlessCellBehavior implements CellsBehavior {
     @Override
     public List<RelativeCell> getCellsInRange(CellGrid cellGrid, Vector position, Integer range) {

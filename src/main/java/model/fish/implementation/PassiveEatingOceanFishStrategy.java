@@ -1,9 +1,11 @@
 package model.fish.implementation;
 
-import model.cell.interfaces.Cell;
 import model.fish.interfaces.EatingOceanFishStrategy;
 import model.ocean.interfaces.OceanSpace;
 
+/**
+ * Eating behavior for passive ocean fish, this fish will eat when current starvation is half of maximum
+ */
 public class PassiveEatingOceanFishStrategy implements EatingOceanFishStrategy {
 
     @Override

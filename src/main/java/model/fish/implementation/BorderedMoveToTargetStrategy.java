@@ -6,6 +6,9 @@ import model.ocean.interfaces.OceanSpace;
 import model.parameters.Vector;
 
 
+/**
+ * Class for moving to target in bordered ocean, cant go out of border
+ */
 public class BorderedMoveToTargetStrategy implements MoveToTargetStrategy {
     @Override
     public void moveToTarget(OceanFish oceanFish, OceanSpace oceanSpace, Target target) {

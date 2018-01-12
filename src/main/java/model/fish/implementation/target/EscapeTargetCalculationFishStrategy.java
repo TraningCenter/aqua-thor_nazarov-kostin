@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/***
- * Strategy for calculation escape target if aggressive fish in range else random target
+/**
+ * Strategy for calculation escape target if aggressive fish in range else random target or target to move on flow
  */
 public class EscapeTargetCalculationFishStrategy implements TargetCalculationFishStrategy {
 

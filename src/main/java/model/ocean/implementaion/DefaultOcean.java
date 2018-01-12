@@ -14,6 +14,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * implements main ocean logic, contains fishes, flows, cell grid, manages different physic conditions
+ */
 public class DefaultOcean implements Ocean, OceanSpace {
 
     private CellsBehavior cellsBehavior;

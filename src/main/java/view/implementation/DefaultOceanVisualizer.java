@@ -25,7 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
+/**
+ * class for Visualizing ocean dto with using of lanterna lib inside terminal
+ */
 public class DefaultOceanVisualizer implements OceanVisualizer {
 
     class FishIdentity{

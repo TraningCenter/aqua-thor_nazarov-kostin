@@ -1,19 +1,17 @@
 package controller.implementation;
 
-import configurator.implementation.DefaultParserChanger;
-import configurator.implementation.XmlOceanCreator;
-import configurator.interfaces.ParserChanger;
 import controller.interfaces.AfterUpdateFunction;
 import controller.interfaces.OceanRunner;
 import dto.OceanDto;
 import dto.translators.OceanTranslator;
 import model.ocean.interfaces.Ocean;
 import model.parameters.OceanParameters;
-import readers.implementation.XmlParametersReader;
-import readers.interfaces.ParametersReader;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * class for run ocean life, updates ocean state
+ */
 public class DefaultOceanRunner implements OceanRunner {
 
     private boolean isEnded = false;

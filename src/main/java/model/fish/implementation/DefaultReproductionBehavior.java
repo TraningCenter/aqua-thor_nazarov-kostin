@@ -1,13 +1,15 @@
 package model.fish.implementation;
 
-import model.fish.interfaces.Fish;
 import model.fish.interfaces.ReproductionBehavior;
-import model.ocean.interfaces.Ocean;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.Vector;
 
 import java.util.function.Supplier;
 
+/**
+ * Reproduction behavior for fishes, create new fish on birth position,
+ * takes fishSupplier which creates new fish
+ */
 public class DefaultReproductionBehavior implements ReproductionBehavior {
 
     private Supplier<OceanFish> fishSupplier;

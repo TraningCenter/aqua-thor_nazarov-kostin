@@ -4,6 +4,9 @@ import model.cell.interfaces.Cell;
 import model.grid.interfaces.CellGrid;
 import model.parameters.Vector;
 
+/**
+ * implementation of grid space
+ */
 public class DefaultCellGrid implements CellGrid {
 
     private Cell[][] cells;

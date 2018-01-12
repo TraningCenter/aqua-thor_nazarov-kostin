@@ -6,6 +6,10 @@ import model.fish.interfaces.OceanFishState;
 import model.parameters.FishState;
 import model.parameters.Vector;
 
+/**
+ * Class for Ocean fish state, encapsulate moving behavior,
+ * fish calculates next targets and move in ocean space
+ */
 public class MovingOceanFishState implements OceanFishState{
 
     private OceanFish oceanFish;
@@ -42,7 +46,6 @@ public class MovingOceanFishState implements OceanFishState{
     private boolean isReachedTarget(){
         return currentTarget.getPosition().equals(oceanFish.getCurrentPosition());
     }
-
 
     public Target getCurrentTarget() {
         return currentTarget;

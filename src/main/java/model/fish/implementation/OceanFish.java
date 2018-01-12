@@ -10,6 +10,9 @@ import model.parameters.FishParameters;
 import model.parameters.FishState;
 import model.parameters.Vector;
 
+/**
+ * Main class for OceanFish, implements full logic of fish, composes other separated behaviors and strategies
+ */
 public class OceanFish implements Fish {
 
     private FishType fishType;

@@ -1,6 +1,5 @@
 package model.ocean.implementaion;
 
-
 import model.cell.implementation.DefaultRelativeCell;
 import model.cell.interfaces.RelativeCell;
 import model.grid.interfaces.CellGrid;
@@ -11,8 +10,10 @@ import model.parameters.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * interface for cells behavior, manages cells in bordered space
+ */
 public class BorderedCellBehavior implements CellsBehavior {
-
 
     @Override
     public List<RelativeCell> getCellsInRange(CellGrid cellGrid, Vector position, Integer range) {

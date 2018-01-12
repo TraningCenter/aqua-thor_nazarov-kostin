@@ -5,6 +5,11 @@ import model.fish.interfaces.MoveToTargetStrategy;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.Vector;
 
+
+/**
+ * Class for moving to target in bordered ocean, can go out of border,
+ * then fish appears on the opposite cell of ocean space, like it real planet with closed space
+ */
 public class BorderlessMoveToTargetStrategy implements MoveToTargetStrategy {
     @Override
     public void moveToTarget(OceanFish oceanFish, OceanSpace oceanSpace, Target target) {
