@@ -3,7 +3,9 @@ package view.implementation;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.screen.VirtualScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.ansi.FixedTerminalSizeProvider;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
@@ -56,6 +58,11 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
         }
     }
 
+    private final Integer PANEL_OFFSET_LEFT = 1;
+    private final Integer PANEL_OFFSET_TOP = 1;
+    private final Integer LINES_IN_STATS = 2;
+    private final Integer MIN_WIDTH_IN_STATS = 18;
+
     private final TextColor.ANSI WATER_COLOR = TextColor.ANSI.BLUE;
     private final TextColor.ANSI FLOW_COLOR = TextColor.ANSI.WHITE;
     private final TextColor.ANSI FISH_COLOR = TextColor.ANSI.GREEN;
@@ -83,26 +90,45 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
     private final TextGraphics textGraphics;
     private final TerminalScreen screen;
 
-    public DefaultOceanVisualizer() throws IOException {
+    public DefaultOceanVisualizer(Vector size) throws IOException {
+        Font font = new Font("Courier New", Font.BOLD,  24);
+
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
         defaultTerminalFactory.setTerminalEmulatorFontConfiguration(new SwingTerminalFontConfiguration(true,
-                AWTTerminalFontConfiguration.BoldMode.EVERYTHING, new Font("Courier New", Font.BOLD,  30)));
+                AWTTerminalFontConfiguration.BoldMode.EVERYTHING, font));
+
+        Vector newSize = new Vector(size.getX(), size.getY()+PANEL_OFFSET_TOP*2 + LINES_IN_STATS);
+        if (newSize.getX()<MIN_WIDTH_IN_STATS+PANEL_OFFSET_LEFT*2)
+            newSize.setX(MIN_WIDTH_IN_STATS+PANEL_OFFSET_LEFT*2);
+
+        defaultTerminalFactory.setInitialTerminalSize(createTerminalSize(newSize));
+
         screen = defaultTerminalFactory.createScreen();
+
         screen.startScreen();
         screen.setCursorPosition(null);
-        textGraphics = screen.newTextGraphics();
 
+        this.textGraphics = screen.newTextGraphics();
     }
 
     @Override
     public void visualize(OceanDto oceanDto) throws IOException {
         Vector oceanSize = oceanDto.getOceanSize();
 
+
         fillWater(oceanSize);
         drawFlows(oceanDto.getFlows());
         drawFishes(oceanDto.getFishes());
 
+        drawPanel(oceanDto, oceanSize);
+
+
         screen.refresh();
+    }
+
+    private void drawPanel(OceanDto oceanDto, Vector oceanSize) {
+        textGraphics.putString(PANEL_OFFSET_LEFT, oceanSize.getY() + PANEL_OFFSET_TOP, "fish count : " + oceanDto.getFishCount());
+        textGraphics.putString(PANEL_OFFSET_LEFT, oceanSize.getY()+1+ PANEL_OFFSET_TOP, "shark count : " + oceanDto.getSharkCount());
     }
 
     private void drawFishes(List<FishDto> fishes) {
@@ -113,10 +139,6 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
     private void drawFlows(List<Flow> flows) {
         flows.forEach(flow -> textGraphics.fillRectangle(createTerminalPosition(flow.getRectangle()),
                 createTerminalSize(flow.getRectangle()), DIRECTION_CHARS.get(flow.getDirection())));
-    }
-
-    private void drawFish(FishDto fish){
-
     }
 
     private void fillWater(Vector oceanSize) {
@@ -133,5 +155,9 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
 
     private TerminalSize createTerminalSize(Rectangle rectangle){
         return new TerminalSize(rectangle.getWidth(),rectangle.getHeight());
+    }
+
+    private TerminalSize createTerminalSize(Vector vector){
+        return new TerminalSize(vector.getX(),vector.getY());
     }
 }

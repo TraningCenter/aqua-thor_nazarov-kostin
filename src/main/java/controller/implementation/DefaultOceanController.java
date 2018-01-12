@@ -30,7 +30,7 @@ public class DefaultOceanController implements OceanController {
 
         oceanRunner = new DefaultOceanRunner(ocean, parameters, translator, this::afterUpdate);
 
-        oceanVisualizer = new DefaultOceanVisualizer();
+        oceanVisualizer = new DefaultOceanVisualizer(parameters.getOceanSize());
     }
 
     @Override

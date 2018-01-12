@@ -38,11 +38,16 @@ public class MockOceanController implements OceanController {
         Vector oceanSize = new Vector(50,20);
 
         List<Flow> flows = new LinkedList<>();
-        flows.add(new Flow(new Vector(-1,0), 4, new Rectangle(4,4,12,12)));
+        flows.add(new Flow(new Vector(1,0), 2, new Rectangle(2,2,46,2)));
+        flows.add(new Flow(new Vector(0,1), 2, new Rectangle(48,2,2,6)));
+        flows.add(new Flow(new Vector(1,0), 2, new Rectangle(48,8,2,2)));
+        flows.add(new Flow(new Vector(1,0), 2, new Rectangle(0,8,2,2)));
+        flows.add(new Flow(new Vector(0,-1), 2, new Rectangle(2,4,2,6)));
+        flows.add(new Flow(new Vector(0,-1), 2, new Rectangle(24,4,2,6)));
 
 
-        OceanParameters parameters = new OceanParameters(oceanSize,flows,5,1, OceanType.BORDERLESS);
-        parameters.setAggressiveFishParameters(new FishParameters(1200,2000, 1000, 2, 3));
+        OceanParameters parameters = new OceanParameters(oceanSize,flows,1,1, OceanType.BORDERLESS);
+        parameters.setAggressiveFishParameters(new FishParameters(1200,2000, 1000, 2, 5));
         parameters.setPassiveFishParameters(new FishParameters(720,1500, 1000, 2, 5));
 
         CellsBehavior cellsBehavior = new BorderlessCellBehavior();
@@ -52,7 +57,7 @@ public class MockOceanController implements OceanController {
         FishesCreator fishesCreator = new DefaultFishesCreator();
         ocean.addAllFishes(fishesCreator.createFishes(parameters,ocean));
 
-        oceanVisualizer = new DefaultOceanVisualizer();
+        oceanVisualizer = new DefaultOceanVisualizer(parameters.getOceanSize());
 
         oceanRunner = new DefaultOceanRunner(ocean, parameters, new OceanTranslator(), this::afterUpdate);
     }

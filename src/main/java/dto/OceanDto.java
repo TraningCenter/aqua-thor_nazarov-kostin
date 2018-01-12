@@ -1,6 +1,7 @@
 package dto;
 
 
+import model.fish.implementation.FishType;
 import model.fish.interfaces.Fish;
 import model.parameters.Flow;
 import model.parameters.OceanType;
@@ -75,14 +76,14 @@ public class OceanDto {
     }
 
     public Integer getSharkCount() {
-        return null;
+        return Math.toIntExact(fishes.stream().filter(fish -> fish.getFishType() == FishType.AGGRESSIVE).count());
     }
 
     public Integer getStepCount() {
-        return null;
+        return steps.size();
     }
 
     public Integer getFishCount() {
-        return null;
+        return Math.toIntExact(fishes.stream().filter(fish -> fish.getFishType() == FishType.PASSIVE).count());
     }
 }

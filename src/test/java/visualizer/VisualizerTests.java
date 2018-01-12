@@ -39,11 +39,11 @@ public class VisualizerTests {
         oceanDto.setFlows(flows);
         oceanDto.setFishes(fishes);
 
-
-        OceanVisualizer visualizer = new DefaultOceanVisualizer();
+        OceanVisualizer visualizer = new DefaultOceanVisualizer(oceanSize);
 
         //Act
         visualizer.visualize(oceanDto);
+
 
 
         //Assert
