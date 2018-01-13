@@ -39,9 +39,9 @@ public class MetricsPrinterTest {
     @Before
     public void init() {
 
-        printer = new XmlMetricsPrinter();
 
-        printer.setPath("src/test/resources/OceanMetrics.xml");
+
+
 
         oceanDto = new OceanDto() {
             {
@@ -126,8 +126,10 @@ public class MetricsPrinterTest {
     }
 
     private void parse(ParserChanger parserChanger){
+        printer = new XmlMetricsPrinter(parserChanger);
+        printer.setPath("src/test/resources/OceanMetrics.xml");
         try (FileInputStream fis = new FileInputStream("src/test/resources/OceanMetrics.xml")){
-            printer.writeMetrics(oceanDto,parserChanger);
+            printer.writeMetrics(oceanDto);
             boolean starter = false;
             StringBuffer sb = new StringBuffer();
             int i=-1;

@@ -53,19 +53,24 @@ public class DefaultParserChanger implements ParserChanger{
     public OceanParamsReader changeReader() throws IOException{
         OceanParamsReader oceanParamsReader;
       properties = readPropertiesFile();
-      switch (properties.get("OceanParamsReader")){
-          case "SAX":
-              oceanParamsReader =  new SaxOceanParamsReader();
-              break;
-          case "DOM":
-              oceanParamsReader =  new DomOceanParamsReader();
-              break;
-          case "JAXB":
-              oceanParamsReader =  new JaxbOceanParamsReader();
-              break;
-           default:
-           oceanParamsReader =  new DomOceanParamsReader();
-           break;
+      if (properties.get("OceanParamsReader")!=null) {
+          switch (properties.get("OceanParamsReader")) {
+              case "SAX":
+                  oceanParamsReader = new SaxOceanParamsReader();
+                  break;
+              case "DOM":
+                  oceanParamsReader = new DomOceanParamsReader();
+                  break;
+              case "JAXB":
+                  oceanParamsReader = new JaxbOceanParamsReader();
+                  break;
+              default:
+                  oceanParamsReader = new DomOceanParamsReader();
+                  break;
+          }
+      }else
+      {
+          oceanParamsReader = new SaxOceanParamsReader();
       }
       return oceanParamsReader;
     }
@@ -73,19 +78,23 @@ public class DefaultParserChanger implements ParserChanger{
     public OceanParamsWriter changeWriter() throws IOException{
         OceanParamsWriter oceanParamsWriter;
         properties = readPropertiesFile();
-        switch (properties.get("OceanParamsWriter")){
-            case "SAX":
-                oceanParamsWriter = new SaxOceanParamsWriter();
-                break;
-            case "DOM":
-                oceanParamsWriter = new DomOceanParamsWriter();
-                break;
-            case "JAXB":
-                oceanParamsWriter = new JaxbOceanParamsWriter();
-                break;
-            default:
-            oceanParamsWriter = new DomOceanParamsWriter();
-                break;
+        if (properties.get("OceanParamsWriter")!=null) {
+            switch (properties.get("OceanParamsWriter")) {
+                case "SAX":
+                    oceanParamsWriter = new SaxOceanParamsWriter();
+                    break;
+                case "DOM":
+                    oceanParamsWriter = new DomOceanParamsWriter();
+                    break;
+                case "JAXB":
+                    oceanParamsWriter = new JaxbOceanParamsWriter();
+                    break;
+                default:
+                    oceanParamsWriter = new DomOceanParamsWriter();
+                    break;
+            }
+        }else{
+            oceanParamsWriter= new SaxOceanParamsWriter();
         }
         return oceanParamsWriter;
     }
@@ -94,19 +103,23 @@ public class DefaultParserChanger implements ParserChanger{
     public MetricsWriter changeMetricsWriter() throws IOException{
         MetricsWriter metricsWriter;
         properties = readPropertiesFile();
-        switch (properties.get("MetricsWriter")){
-            case "SAX":
-                metricsWriter = new SaxMetricsWriter();
-                break;
-            case "DOM":
-                metricsWriter = new DomMetricsWriter();
-                break;
-            case "JAXB":
-                metricsWriter = new JaxbMetricsWriter();
-                break;
-            default:
-                metricsWriter = new DomMetricsWriter();
-                break;
+        if (properties.get("MetricsWriter")!=null) {
+            switch (properties.get("MetricsWriter")) {
+                case "SAX":
+                    metricsWriter = new SaxMetricsWriter();
+                    break;
+                case "DOM":
+                    metricsWriter = new DomMetricsWriter();
+                    break;
+                case "JAXB":
+                    metricsWriter = new JaxbMetricsWriter();
+                    break;
+                default:
+                    metricsWriter = new DomMetricsWriter();
+                    break;
+            }
+        }else{
+            metricsWriter=new SaxMetricsWriter();
         }
         return metricsWriter;
     }

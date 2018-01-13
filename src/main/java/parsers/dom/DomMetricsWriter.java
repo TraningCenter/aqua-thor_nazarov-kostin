@@ -94,6 +94,7 @@ public class DomMetricsWriter implements MetricsWriter {
     private Transformer createTransformer() throws TransformerConfigurationException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+       // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         return transformer;
     }
 

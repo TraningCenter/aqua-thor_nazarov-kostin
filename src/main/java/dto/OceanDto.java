@@ -30,9 +30,15 @@ public class OceanDto {
 
     private List<Step> steps;
 
+    private int stepsCount = 0;
+
     public void addStep(){
 
-        steps.add(new Step(steps.size()+1,fishes));
+        steps.add(new Step(stepsCount,fishes));
+    }
+
+    public void incrementStepCount(){
+        stepsCount++;
     }
 
     public OceanType getOceanType() {
@@ -89,5 +95,10 @@ public class OceanDto {
 
     public Integer getFishCount() {
         return Math.toIntExact(fishes.stream().filter(fish -> fish.getFishType() == FishType.PASSIVE).count());
+    }
+
+
+    public int getStepsCount() {
+        return stepsCount;
     }
 }

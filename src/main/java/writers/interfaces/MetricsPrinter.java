@@ -5,7 +5,7 @@ import dto.OceanDto;
 
 public interface MetricsPrinter {
 
-    public void writeMetrics(OceanDto oceanDto, ParserChanger parserChanger);
+    public void writeMetrics(OceanDto oceanDto);
 
     public void setPath(String path);
 }

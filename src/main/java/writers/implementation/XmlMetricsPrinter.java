@@ -13,10 +13,16 @@ import java.io.IOException;
 public class XmlMetricsPrinter implements MetricsPrinter {
 
 
+
+    private ParserChanger parserChanger;
     private String path = "OceanMetrics.xml";
 
+    public  XmlMetricsPrinter(ParserChanger  parserChanger){
+        this.parserChanger =parserChanger;
+    }
+
     @Override
-    public void writeMetrics(OceanDto oceanDto,ParserChanger parserChanger) {
+    public void writeMetrics(OceanDto oceanDto) {
 
         MetricsWriter metricsWriter;
 
