@@ -82,11 +82,6 @@ public class OceanFishBorderlessTests {
         int currentRestTimeTicks = 0;
         int countOfMoves = 0;
 
-        System.out.println("current position : " + fish.getCurrentPosition());
-        System.out.println("current target : null");
-        System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
-        System.out.println("");
-
         //assert that count of moves = nearest path
         Assert.assertNull(lastTarget);
         for (int i = 0; i < 1000; i++) {
@@ -94,25 +89,13 @@ public class OceanFishBorderlessTests {
             if (movingOceanFishState.getCurrentTarget() != null)
                 lastTarget = new Target(movingOceanFishState.getCurrentTarget().getPosition(), movingOceanFishState.getCurrentTarget().getPriority());
 
-            //fish.action();
             fish.action();
             Assert.assertNotNull(movingOceanFishState.getCurrentTarget());
             currentRestTimeTicks++;
 
-            System.out.println("current position : " + fish.getCurrentPosition());
-            System.out.println("last position : " + lastPosition);
-            System.out.println("current target : " + movingOceanFishState.getCurrentTarget().getPosition());
-            System.out.println("last target : " + lastTarget);
-            System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
-            System.out.println("");
-
             //Assert moving
             if (currentRestTimeTicks - 1 >= fishParameters.getTimeToMoveThroughOneCell())
-            {/*
-                System.out.println("current position : " + fish.getCurrentPosition());
-                System.out.println("current target : " + movingOceanFishState.getCurrentTarget().getPosition());
-                System.out.println("current rest : " + fish.getCurrentRestedTimeTicks());
-                System.out.println("");*/
+            {
 
                 Assert.assertNotEquals(lastPosition, fish.getCurrentPosition());
                 countOfMoves++;
@@ -122,14 +105,6 @@ public class OceanFishBorderlessTests {
             //Assert target changing
             if (lastTarget != null && lastPosition.equals(lastTarget.getPosition())) {
                 Assert.assertNotEquals(lastTarget, movingOceanFishState.getCurrentTarget());
-
-                System.out.println("last target : " + lastTarget.getPosition()
-                        + "  new target : " + movingOceanFishState.getCurrentTarget().getPosition()
-                        + "  |"
-                        + "  assert distance - target : " + lastTarget.getPosition()
-                        + "  position : " + startPositionForMovingToTarget
-                        + "  count of moves : " + countOfMoves
-                        + "  distance method : " + getNearestPathMovesCount(lastTarget.getPosition(), startPositionForMovingToTarget));
                 Assert.assertEquals(getNearestPathMovesCount(lastTarget.getPosition(), startPositionForMovingToTarget), countOfMoves);
 
                 startPositionForMovingToTarget = fish.getCurrentPosition();

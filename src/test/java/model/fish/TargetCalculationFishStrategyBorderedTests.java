@@ -1,6 +1,5 @@
 package model.fish;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import model.cell.implementation.DefaultCell;
 import model.cell.interfaces.Cell;
 import model.fish.implementation.FishType;
@@ -8,11 +7,9 @@ import model.fish.implementation.target.*;
 import model.fish.interfaces.Fish;
 import model.grid.implementation.DefaultCellGrid;
 import model.ocean.implementaion.BorderedCellBehavior;
-import model.ocean.implementaion.BorderlessCellBehavior;
 import model.ocean.implementaion.DefaultOcean;
 import model.parameters.Flow;
 import model.parameters.Vector;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

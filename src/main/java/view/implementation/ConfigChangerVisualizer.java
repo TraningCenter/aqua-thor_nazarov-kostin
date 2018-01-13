@@ -1,35 +1,26 @@
 package view.implementation;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
-import com.googlecode.lanterna.gui2.dialogs.TextInputDialog;
-import com.googlecode.lanterna.gui2.dialogs.TextInputDialogBuilder;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorPalette;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import configurator.implementation.DefaultParserChanger;
-import controller.implementation.DefaultOceanController;
 import model.fish.implementation.FishType;
 import model.parameters.*;
 import model.parameters.Rectangle;
-import parsers.OceanParamsWriter;
 import writers.implementation.XmlParamsPrinter;
 import writers.interfaces.ParamsPrinter;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class ConfigChangerVisualizer {
 

@@ -12,7 +12,7 @@ public class DefaultInputHandler implements InputHandler ,Runnable {
     Screen screen;
     Boolean isStopped;
 
-    DefaultInputHandler(Screen screen,Boolean isStopped){
+    DefaultInputHandler(Screen screen, Boolean isStopped){
         this.screen=screen;
         this.isStopped=isStopped;
     }

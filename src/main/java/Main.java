@@ -1,9 +1,5 @@
-import controller.implementation.DefaultOceanController;
-import controller.implementation.MockOceanController;
-import controller.interfaces.OceanController;
 import view.implementation.DefaultMenuVisualizer;
 
-import java.io.IOException;
 
 public class Main {
 
