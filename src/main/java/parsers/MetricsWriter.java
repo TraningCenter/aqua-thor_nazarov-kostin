@@ -7,5 +7,5 @@ import java.io.OutputStream;
 
 public interface MetricsWriter {
 
-    public void write(OceanDto oceanDto, OutputStream outputStream, InputStream inputStream);
+    public void write(OceanDto oceanDto, OutputStream outputStream);
 }

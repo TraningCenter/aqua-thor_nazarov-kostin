@@ -13,17 +13,22 @@ import java.io.IOException;
 public class XmlMetricsPrinter implements MetricsPrinter {
 
 
+
+    private ParserChanger parserChanger;
     private String path = "OceanMetrics.xml";
 
+    public  XmlMetricsPrinter(ParserChanger  parserChanger){
+        this.parserChanger =parserChanger;
+    }
+
     @Override
-    public void writeMetrics(OceanDto oceanDto,ParserChanger parserChanger) {
+    public void writeMetrics(OceanDto oceanDto) {
 
         MetricsWriter metricsWriter;
 
-        try (FileOutputStream fos = new FileOutputStream(path,true)) {
-            FileInputStream fis = new FileInputStream(path);
+        try (FileOutputStream fos = new FileOutputStream(path)) {
             metricsWriter = parserChanger.changeMetricsWriter();
-            metricsWriter.write(oceanDto, fos,fis);
+            metricsWriter.write(oceanDto, fos);
 
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -3,6 +3,7 @@ package parsers.dom;
 import com.sun.webkit.dom.ElementImpl;
 import com.sun.webkit.dom.NodeImpl;
 import dto.OceanDto;
+import dto.Step;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,32 +20,22 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.List;
 
 public class DomMetricsWriter implements MetricsWriter {
     @Override
-    public void write(OceanDto oceanDto, OutputStream outputStream, InputStream inputStream) {
+    public void write(OceanDto oceanDto, OutputStream outputStream) {
         try {
-            createTransformer().transform(makeDom(oceanDto, inputStream), new StreamResult(outputStream));
+            createTransformer().transform(makeDom(oceanDto), new StreamResult(outputStream));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private DOMSource makeDom(OceanDto oceanDto, InputStream inputStream) throws ParserConfigurationException, TransformerConfigurationException,IOException,SAXException {
+    private DOMSource makeDom(OceanDto oceanDto) throws ParserConfigurationException, TransformerConfigurationException,IOException,SAXException {
         DocumentBuilder documentBuilder = createDocumentBuilder();
-       // File file = inputStream.
-       // InputStream testStream = inputStream.;
         Document document;
-
-  /*     if (true){//(testStream.read()!=-1) {
-
-          document = documentBuilder.parse(inputStream);
-          Element stepElemant = createStep(document,oceanDto);
-          Element root = (Element) document.getElementsByTagName("oceanMetrics").item(0);
-          root.appendChild(stepElemant);
-
-    } else{  */
            document = documentBuilder.newDocument();
            Element oceanMetricsElement = createOceanMetricsElement(document, oceanDto);
            document.appendChild(oceanMetricsElement);
@@ -57,33 +48,53 @@ public class DomMetricsWriter implements MetricsWriter {
     private Element createOceanMetricsElement(Document document, OceanDto oceanDto) {
         Element oceanMetricsElement = document.createElement("oceanMetrics");
 
-        oceanMetricsElement.appendChild(createStep(document, oceanDto));
+        oceanMetricsElement.appendChild(createOceanTypeElement(document,oceanDto));
+        oceanMetricsElement.appendChild(createStepsElement(document, oceanDto));
 
         return oceanMetricsElement;
     }
 
-    private Element createStep(Document document,OceanDto oceanDto) {
+    private Element createStepsElement(Document document,OceanDto oceanDto){
+        List<Step> steps = oceanDto.getSteps();
+        Element stepsElement = document.createElement("steps");
+
+        for (Step step:steps){
+            stepsElement.appendChild(createStep(document,step));
+        }
+
+        return  stepsElement;
+    }
+
+    private Element createOceanTypeElement(Document document, OceanDto oceanDto) {
+        Element oceanTypeElement = document.createElement("oceanType");
+        oceanTypeElement.appendChild(document.createTextNode(oceanDto.getOceanType().toString()));
+
+        return oceanTypeElement;
+    }
+
+    private Element createStep(Document document,Step step) {
         Element stepElemant = document.createElement("step");
-        stepElemant.appendChild(createStepCountElement(document,oceanDto));
-        stepElemant.appendChild(createFishCountElement(document,oceanDto));
-        stepElemant.appendChild(createSharkCountElement(document,oceanDto));
+        stepElemant.appendChild(createStepCountElement(document,step));
+        stepElemant.appendChild(createFishCountElement(document,step));
+        stepElemant.appendChild(createSharkCountElement(document,step));
 
         return stepElemant;
     }
 
-    private Element createFishCountElement(Document document, OceanDto oceanDto) {
-        return createIntegerElementWithTextValue(document, "fishCount", oceanDto.getFishCount());
+    private Element createFishCountElement(Document document, Step step) {
+        return createIntegerElementWithTextValue(document, "fishCount", step.getFishCount());
     }
-    private Element createSharkCountElement(Document document, OceanDto oceanDto) {
-        return createIntegerElementWithTextValue(document, "sharkCount", oceanDto.getSharkCount());
+    private Element createSharkCountElement(Document document, Step step) {
+        return createIntegerElementWithTextValue(document, "sharkCount", step.getSharkCount());
     }
-    private Element createStepCountElement(Document document, OceanDto oceanDto) {
-        return createIntegerElementWithTextValue(document, "stepCount", oceanDto.getStepCount());
+    private Element createStepCountElement(Document document, Step step) {
+        return createIntegerElementWithTextValue(document, "stepCount", step.getStepCount());
     }
 
     private Transformer createTransformer() throws TransformerConfigurationException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+       // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         return transformer;
     }
 

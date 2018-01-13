@@ -1,13 +1,22 @@
 package writers;
 
 import configurator.implementation.DefaultParserChanger;
+import configurator.implementation.XmlOceanCreator;
 import configurator.interfaces.ParserChanger;
 import dto.OceanDto;
+import dto.Step;
+import dto.translators.OceanTranslator;
 import jdk.internal.util.xml.impl.Input;
+import model.fish.interfaces.Fish;
+import model.ocean.implementaion.DefaultOcean;
+import model.ocean.interfaces.Ocean;
 import model.parameters.OceanType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import parameters.OceanParametersMock;
+import readers.XmlParamsReaderMock;
+import readers.implementation.XmlParametersReader;
 import writers.implementation.XmlMetricsPrinter;
 import writers.interfaces.MetricsPrinter;
 
@@ -17,6 +26,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,18 +39,26 @@ public class MetricsPrinterTest {
     @Before
     public void init() {
 
-        printer = new XmlMetricsPrinter();
 
-        printer.setPath("src/test/resources/OceanMetrics.xml");
+
+
 
         oceanDto = new OceanDto() {
             {
+                XmlOceanCreator creator = new XmlOceanCreator();
+               Ocean ocean = creator.createOcean(null,new XmlParamsReaderMock());
+               OceanParametersMock params = new OceanParametersMock();
+                OceanTranslator translator = new OceanTranslator();
+                OceanDto oceanDto = translator.translateToDto(this,ocean);
+
                 setOceanType(OceanType.BORDERED);
-                //TODO: cant find methods
-                /*
-                setStepCount(5);
-                setFishCount(10);
-                setSharkCount(7);*/
+                List<Step> steps =  new ArrayList<Step>(){
+                    {
+                        add(new Step(1,oceanDto.getFishes()));
+                        add(new Step(2,oceanDto.getFishes()));
+                    }
+                };
+                setSteps(steps);
             }
         };
     }
@@ -108,8 +126,10 @@ public class MetricsPrinterTest {
     }
 
     private void parse(ParserChanger parserChanger){
+        printer = new XmlMetricsPrinter(parserChanger);
+        printer.setPath("src/test/resources/OceanMetrics.xml");
         try (FileInputStream fis = new FileInputStream("src/test/resources/OceanMetrics.xml")){
-            printer.writeMetrics(oceanDto,parserChanger);
+            printer.writeMetrics(oceanDto);
             boolean starter = false;
             StringBuffer sb = new StringBuffer();
             int i=-1;
@@ -121,7 +141,7 @@ public class MetricsPrinterTest {
                     starter=true;
                 }
             }
-            String expected="<oceanMetrics><oceanType>BORDERED</oceanType><stepCount>5</stepCount><fishCount>10</fishCount><sharkCount>7</sharkCount></oceanMetrics>";
+            String expected="<oceanMetrics><oceanType>BORDERED</oceanType><steps><step><stepCount>1</stepCount><fishCount>15</fishCount><sharkCount>10</sharkCount></step><step><stepCount>2</stepCount><fishCount>15</fishCount><sharkCount>10</sharkCount></step></steps></oceanMetrics>";
             Assert.assertEquals(expected,sb.toString());
         }
         catch (IOException ex){

@@ -2,6 +2,8 @@ package view.implementation;
 
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.screen.VirtualScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -60,6 +62,8 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
         }
     }
 
+    private DefaultInputHandler defaultInputHandler;
+
     private final Integer PANEL_OFFSET_LEFT = 1;
     private final Integer PANEL_OFFSET_TOP = 1;
     private final Integer LINES_IN_STATS = 2;
@@ -111,12 +115,17 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
         screen.setCursorPosition(null);
 
         this.textGraphics = screen.newTextGraphics();
+        defaultInputHandler = new DefaultInputHandler(screen,false);
+        Thread stopThread = new Thread(defaultInputHandler);
+        stopThread.start();
+
     }
 
     @Override
-    public void visualize(OceanDto oceanDto) throws IOException {
-        Vector oceanSize = oceanDto.getOceanSize();
+    public boolean visualize(OceanDto oceanDto) throws IOException {
+        boolean stopped= false;
 
+        Vector oceanSize = oceanDto.getOceanSize();
 
         fillWater(oceanSize);
         drawFlows(oceanDto.getFlows());
@@ -124,8 +133,19 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
 
         drawPanel(oceanDto, oceanSize);
 
+        textGraphics.putString(0,oceanSize.getY()+4,"Press Esc for return to main menu");
 
         screen.refresh();
+
+
+
+        if( defaultInputHandler.isStopped ){
+            stopped=true;
+            screen.stopScreen();
+        }
+
+        return stopped;
+
     }
 
     private void drawPanel(OceanDto oceanDto, Vector oceanSize) {
@@ -160,6 +180,6 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
     }
 
     private TerminalSize createTerminalSize(Vector vector){
-        return new TerminalSize(vector.getX(),vector.getY());
+        return new TerminalSize(vector.getX(),vector.getY()+1);
     }
 }

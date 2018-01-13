@@ -12,6 +12,8 @@ import model.parameters.OceanParameters;
 import readers.implementation.XmlParametersReader;
 import view.implementation.DefaultOceanVisualizer;
 import view.interfaces.OceanVisualizer;
+import writers.implementation.XmlMetricsPrinter;
+import writers.interfaces.MetricsPrinter;
 
 import java.io.IOException;
 
@@ -25,13 +27,15 @@ public class DefaultOceanController implements OceanController {
 
     public DefaultOceanController() throws IOException {
 
+
         OceanTranslator translator = new OceanTranslator();
         ParserChanger parserChanger = new DefaultParserChanger();
         XmlParametersReader reader = new XmlParametersReader();
-        OceanParameters parameters = reader.readParams(new DefaultParserChanger());
+        OceanParameters parameters = reader.readParams(parserChanger);
         Ocean ocean = new XmlOceanCreator().createOcean(parserChanger, reader);
+        MetricsPrinter metricsPrinter = new XmlMetricsPrinter(parserChanger);
 
-        oceanRunner = new DefaultOceanRunner(ocean, parameters, translator, this::afterUpdate);
+        oceanRunner = new DefaultOceanRunner(ocean, parameters, translator,metricsPrinter, this::afterUpdate);
 
         oceanVisualizer = new DefaultOceanVisualizer(parameters.getOceanSize());
     }
@@ -41,11 +45,12 @@ public class DefaultOceanController implements OceanController {
         oceanRunner.start();
     }
 
-    private void afterUpdate(OceanDto oceanDto){
+    private boolean afterUpdate(OceanDto oceanDto){
         try {
-            oceanVisualizer.visualize(oceanDto);
+           return oceanVisualizer.visualize(oceanDto);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

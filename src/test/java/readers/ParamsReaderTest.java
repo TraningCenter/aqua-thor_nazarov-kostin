@@ -1,25 +1,17 @@
 package readers;
 
 import configurator.implementation.DefaultParserChanger;
-import configurator.implementation.XmlOceanCreator;
-import configurator.interfaces.OceanCreator;
 import configurator.interfaces.ParserChanger;
 import model.parameters.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import parameters.OceanParametersMock;
-import parsers.OceanParamsReader;
 import readers.implementation.XmlParametersReader;
-import readers.interfaces.ParametersReader;
-import writers.implementation.XmlParamsPrinter;
+import parsers.ParametersReader;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ParamsReaderTest {

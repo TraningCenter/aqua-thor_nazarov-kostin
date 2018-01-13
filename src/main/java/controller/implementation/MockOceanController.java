@@ -59,7 +59,7 @@ public class MockOceanController implements OceanController {
 
         oceanVisualizer = new DefaultOceanVisualizer(parameters.getOceanSize());
 
-        oceanRunner = new DefaultOceanRunner(ocean, parameters, new OceanTranslator(), this::afterUpdate);
+        oceanRunner = new DefaultOceanRunner(ocean, parameters, new OceanTranslator(),null, this::afterUpdate);
     }
 
     private CellGrid buildCellGrid(Vector oceanSize){
@@ -77,11 +77,12 @@ public class MockOceanController implements OceanController {
         oceanRunner.start();
     }
 
-    private void afterUpdate(OceanDto oceanDto) {
+    private Boolean afterUpdate(OceanDto oceanDto) {
         try {
-            oceanVisualizer.visualize(oceanDto);
+           return oceanVisualizer.visualize(oceanDto);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
