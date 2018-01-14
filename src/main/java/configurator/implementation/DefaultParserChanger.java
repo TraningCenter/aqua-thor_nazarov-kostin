@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * provide possibility to change xml parsers using .properties file
+ */
 public class DefaultParserChanger implements ParserChanger{
 
    private Map<String,String> properties = new HashMap<>();

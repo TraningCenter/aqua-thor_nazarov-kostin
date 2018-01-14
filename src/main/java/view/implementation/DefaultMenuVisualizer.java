@@ -12,7 +12,9 @@ import controller.implementation.DefaultOceanController;
 import java.awt.*;
 import java.io.IOException;
 
-
+/**
+ * provides a main menu of application
+ */
 public class DefaultMenuVisualizer {
 
     public void visualizeStartMenu(){

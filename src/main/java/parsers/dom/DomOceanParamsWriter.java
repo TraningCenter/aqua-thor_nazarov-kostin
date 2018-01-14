@@ -15,7 +15,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.OutputStream;
 import java.util.List;
-
+/**
+ * writes parameters in xml using DOM
+ */
 public class DomOceanParamsWriter implements OceanParamsWriter {
 
     @Override

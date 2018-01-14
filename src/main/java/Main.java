@@ -1,6 +1,8 @@
 import view.implementation.DefaultMenuVisualizer;
 
-
+/**
+ * entry point of application
+ */
 public class Main {
 
 

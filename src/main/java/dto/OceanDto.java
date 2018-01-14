@@ -11,6 +11,9 @@ import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class for store special ocean's parameters for rendering and saving
+ */
 @XmlRootElement(name = "oceanMetrics")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = {"oceanType", "steps"})

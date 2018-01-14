@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * creates needed fishes amd sharks using ocean's parameters
+ */
 public class DefaultFishesCreator implements FishesCreator {
 
     private List<Fish> fishes;

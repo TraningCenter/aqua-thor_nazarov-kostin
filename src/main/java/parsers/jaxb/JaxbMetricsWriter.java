@@ -9,7 +9,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+/**
+ * writes metrics in xml using JaxB
+ */
 public class JaxbMetricsWriter implements MetricsWriter {
     @Override
     public void write(OceanDto oceanDto, OutputStream outputStream) {

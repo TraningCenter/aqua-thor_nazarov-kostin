@@ -7,7 +7,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
-
+/**
+ * reads parameters from xml using JaxB
+ */
 public class JaxbOceanParamsReader implements OceanParamsReader {
 
     public OceanParameters read(InputStream inputStream){

@@ -1,5 +1,8 @@
 package model.parameters;
 
+/**
+ * class , which store parameters for one type of fishes
+ */
 public class FishParameters {
     private Integer reproductionPeriodTicks;
     private Integer lifeTimeTicks;

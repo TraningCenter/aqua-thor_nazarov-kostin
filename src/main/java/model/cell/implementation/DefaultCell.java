@@ -6,6 +6,9 @@ import model.parameters.Vector;
 
 import java.util.*;
 
+/**
+ * class with data for one cell
+ */
 public class DefaultCell implements Cell {
 
     private Vector position;

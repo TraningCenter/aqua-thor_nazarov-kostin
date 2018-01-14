@@ -6,7 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-
+/**
+ * necessary parameters of ocean
+ */
 @XmlRootElement
 @XmlType(propOrder = {"oceanType", "oceanSize","flows", "passiveFishCount", "aggressiveFishCount", "passiveFishParameters", "aggressiveFishParameters"})
 public class OceanParameters {

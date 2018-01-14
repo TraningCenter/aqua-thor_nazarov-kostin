@@ -22,6 +22,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.List;
 
+/**
+ * writes metrics in xml using DOM
+ */
 public class DomMetricsWriter implements MetricsWriter {
     @Override
     public void write(OceanDto oceanDto, OutputStream outputStream) {
