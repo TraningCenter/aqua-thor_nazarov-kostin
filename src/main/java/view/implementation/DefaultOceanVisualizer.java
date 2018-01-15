@@ -86,10 +86,10 @@ public class DefaultOceanVisualizer implements OceanVisualizer {
     }};
 
     private final Map<Vector, TextCharacter> DIRECTION_CHARS = new HashMap<Vector, TextCharacter>(){{
-        put(new Vector(0,-1), new TextCharacter('↑', FLOW_COLOR, WATER_COLOR));
-        put(new Vector(-1,0), new TextCharacter('←', FLOW_COLOR, WATER_COLOR));
-        put(new Vector(0,1), new TextCharacter('↓', FLOW_COLOR, WATER_COLOR));
-        put(new Vector(1,0), new TextCharacter('→', FLOW_COLOR, WATER_COLOR));
+        put(new Vector(0,-1), new TextCharacter('^', FLOW_COLOR, WATER_COLOR));
+        put(new Vector(-1,0), new TextCharacter('<', FLOW_COLOR, WATER_COLOR));
+        put(new Vector(0,1), new TextCharacter('v', FLOW_COLOR, WATER_COLOR));
+        put(new Vector(1,0), new TextCharacter('>', FLOW_COLOR, WATER_COLOR));
     }};
 
 
