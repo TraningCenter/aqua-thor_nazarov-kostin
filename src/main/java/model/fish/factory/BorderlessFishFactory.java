@@ -6,7 +6,9 @@ import model.fish.interfaces.Fish;
 import model.ocean.interfaces.OceanSpace;
 import model.parameters.FishParameters;
 import model.parameters.Vector;
-
+/**
+ * creates one fish with necessary parameters for borderless ocean
+ */
 public class BorderlessFishFactory implements FishFactory {
 
     @Override

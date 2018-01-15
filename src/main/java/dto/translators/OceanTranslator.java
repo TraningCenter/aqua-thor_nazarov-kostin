@@ -4,6 +4,10 @@ import dto.OceanDto;
 import model.ocean.interfaces.Ocean;
 import model.parameters.OceanParameters;
 
+/**
+ * creates oceanDto class - for special parameters for rendering and saving in xml
+ * and update fishes's parameters in oceanDto
+ */
 public class OceanTranslator {
 
     private FishTranslator fishTranslator;

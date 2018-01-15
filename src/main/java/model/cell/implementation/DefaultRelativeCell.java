@@ -6,7 +6,9 @@ import model.fish.interfaces.Fish;
 import model.parameters.Vector;
 
 import java.util.List;
-
+/**
+ * class with data for one relative cell
+ */
 public class DefaultRelativeCell implements RelativeCell {
 
     private Vector relativePosition;

@@ -1,5 +1,8 @@
 package model.parameters;
 
+/**
+ * class describing vector
+ */
 public class Vector {
     private Integer x;
     private Integer y;

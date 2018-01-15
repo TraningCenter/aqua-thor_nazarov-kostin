@@ -22,6 +22,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * provides GUI for changing application parameters
+ */
 public class ConfigChangerVisualizer {
 
     OceanParameters oceanParameters;

@@ -1,5 +1,8 @@
 package model.parameters;
 
+/**
+ * translation from vector to direction
+ */
 public class Directions {
     public static Vector LEFT=new Vector(-1,0);
     public static Vector RIGHT=new Vector(1,0);

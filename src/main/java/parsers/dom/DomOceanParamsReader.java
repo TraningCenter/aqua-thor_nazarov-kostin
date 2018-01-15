@@ -10,7 +10,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * reads parameters from xml using DOM
+ */
 public class DomOceanParamsReader implements OceanParamsReader {
 
     private OceanParameters oceanParameters;

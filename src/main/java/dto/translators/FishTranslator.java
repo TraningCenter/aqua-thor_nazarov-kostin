@@ -7,6 +7,9 @@ import model.parameters.FishState;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * translates parameters from list of fishes to special list of FishDto
+ */
 public class FishTranslator {
 
     private List<FishDto> fishDtos;

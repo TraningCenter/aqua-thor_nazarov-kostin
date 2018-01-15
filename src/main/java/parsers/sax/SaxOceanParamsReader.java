@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * reads parameters from xml using SAX
+ */
 public class SaxOceanParamsReader extends DefaultHandler implements OceanParamsReader {
 
     private OceanParameters oceanParameters;

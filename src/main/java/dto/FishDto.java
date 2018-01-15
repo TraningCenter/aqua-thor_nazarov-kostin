@@ -6,7 +6,9 @@ import model.parameters.Vector;
 
 import javax.xml.bind.annotation.XmlType;
 
-
+/**
+ * class for store special fish's parameters for rendering
+ */
 public class FishDto {
 
     private FishType fishType;

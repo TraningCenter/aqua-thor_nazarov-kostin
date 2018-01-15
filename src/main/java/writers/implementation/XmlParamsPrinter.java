@@ -8,7 +8,9 @@ import writers.interfaces.ParamsPrinter;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+/**
+ * Picks xml parser using .properties file  and writes parameters in xml
+ */
 public class XmlParamsPrinter implements ParamsPrinter {
 
 

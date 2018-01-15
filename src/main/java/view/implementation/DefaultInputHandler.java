@@ -8,6 +8,9 @@ import view.interfaces.InputHandler;
 
 import java.io.IOException;
 
+/**
+ * tracks for stopping simulation
+ */
 public class DefaultInputHandler implements InputHandler ,Runnable {
     Screen screen;
     Boolean isStopped;

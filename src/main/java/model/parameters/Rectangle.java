@@ -2,6 +2,9 @@ package model.parameters;
 
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * class describing rectangle
+ */
 @XmlType(propOrder = {"x","y","width","height"})
 public class Rectangle {
     private Integer x;

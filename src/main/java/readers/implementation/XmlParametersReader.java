@@ -7,6 +7,9 @@ import parsers.ParametersReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * reads parameters from xml
+ */
 public class XmlParametersReader implements ParametersReader{
 
     private String path = "OceanParams.xml";

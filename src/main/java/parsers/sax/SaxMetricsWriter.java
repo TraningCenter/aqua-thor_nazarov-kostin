@@ -12,7 +12,9 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+/**
+ * writes metrics in xml using SAX
+ */
 public class SaxMetricsWriter implements MetricsWriter {
 
 

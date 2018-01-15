@@ -23,6 +23,9 @@ import parsers.ParametersReader;
 
 import java.util.List;
 
+/**
+ * creates the ocean with necessary parameters(use parameters from xml)
+ */
 public class XmlOceanCreator implements OceanCreator {
 
    private ParametersReader reader;

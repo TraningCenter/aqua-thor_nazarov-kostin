@@ -10,7 +10,9 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import java.io.OutputStream;
-
+/**
+ * writes parameters in xml using SAX
+ */
 public class SaxOceanParamsWriter implements OceanParamsWriter {
 
     private TransformerFactory factory;

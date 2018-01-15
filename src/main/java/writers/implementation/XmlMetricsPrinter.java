@@ -8,6 +8,10 @@ import writers.interfaces.MetricsPrinter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
+/**
+ * Picks xml parser using .properties file  and writes metrics in xml
+ */
 public class XmlMetricsPrinter implements MetricsPrinter {
 
     private ParserChanger parserChanger;
